@@ -13,7 +13,8 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
 model TestProfile {
-  id   String @id @default(uuid())
-  name String
+id  String @id @default(uuid())
+name String
 }
