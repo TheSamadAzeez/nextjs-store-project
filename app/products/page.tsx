@@ -12,9 +12,10 @@ export default async function ProductsPage({
 }: {
   searchParams: SearchParamsType;
 }) {
+  const params = await searchParams;
   // assign default values to the params object
-  const layout = searchParams.layout || 'grid';
-  const search = searchParams.search || '';
+  const layout = params?.layout || 'grid';
+  const search = params?.search || '';
   // console.log(searchParams);
 
   return <ProductsContainer layout={layout} search={search} />;
