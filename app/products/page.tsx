@@ -1,23 +1,21 @@
-'use client';
 import ProductsContainer from '@/components/products/ProductsContainer';
-import { useSearchParams } from 'next/navigation';
 
 /** URL search parameters for product filtering and display */
 type SearchParamsType = {
-  layout?: string; // 'grid' or 'list' display
-  search?: string; // search query
+  layout?: string;
+  search?: string;
 };
 
 /** Products page with layout and search functionality */
-function ProductsPage() {
-  const searchParams = useSearchParams();
-  const params = Object.fromEntries(searchParams) as SearchParamsType;
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: SearchParamsType;
+}) {
   // assign default values to the params object
-  const layout = params.layout || 'grid';
-  const search = params.search || '';
-  console.log(params);
+  const layout = searchParams.layout || 'grid';
+  const search = searchParams.search || '';
+  console.log(searchParams);
 
   return <ProductsContainer layout={layout} search={search} />;
 }
-
-export default ProductsPage;
