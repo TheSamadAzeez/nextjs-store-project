@@ -15,7 +15,7 @@ export default async function ProductsPage({
   // assign default values to the params object
   const layout = searchParams.layout || 'grid';
   const search = searchParams.search || '';
-  console.log(searchParams);
+  // console.log(searchParams);
 
   return <ProductsContainer layout={layout} search={search} />;
 }
