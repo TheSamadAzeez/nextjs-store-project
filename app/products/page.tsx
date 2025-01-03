@@ -3,10 +3,10 @@ import ProductsContainer from '@/components/products/ProductsContainer';
 import { useSearchParams } from 'next/navigation';
 
 /** URL search parameters for product filtering and display */
-interface SearchParamsType {
+type SearchParamsType = {
   layout?: string; // 'grid' or 'list' display
   search?: string; // search query
-}
+};
 
 /** Products page with layout and search functionality */
 function ProductsPage() {
