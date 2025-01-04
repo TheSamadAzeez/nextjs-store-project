@@ -1,45 +1,61 @@
 'use client';
-// Import required dependencies
+
+// Import required UI components and hooks
 import { Input } from '../ui/input';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { useState, useEffect } from 'react';
 
-// NavSearch component handles real-time search functionality
+/**
+ * NavSearch Component
+ * Provides a search input field with debounced URL updates
+ * Updates the URL search parameters as the user types
+ */
 function NavSearch() {
-  // Get access to search parameters and navigation
+  // Hook to access and manipulate URL search parameters
   const searchParams = useSearchParams();
+  // Hook for programmatic navigation
   const { replace } = useRouter();
 
-  // Initialize search state with existing search param or empty string
+  // State to manage the search input value
+  // Initialize with existing search parameter or empty string
   const [search, setSearch] = useState(
     searchParams.get('search')?.toString() || ''
   );
 
-  // Debounced search handler to prevent excessive URL updates
-  // Waits 300ms after user stops typing before updating
+  /**
+   * Debounced function to handle search parameter updates
+   * Prevents excessive URL updates while typing
+   * @param value - The search input value
+   */
   const handleSearch = useDebouncedCallback((value: string) => {
     const params = new URLSearchParams(searchParams);
 
-    // Update URL params based on search value
+    // Add or remove search parameter based on input value
     if (value) {
       params.set('search', value);
     } else {
       params.delete('search');
     }
-    // Navigate to products page with updated search params
+    // Update URL with new search parameters
     replace(`/products?${params.toString()}`);
-  }, 300);
+  }, 300); // 300ms delay
+
+  // Reset search input when search parameter is removed
+  useEffect(() => {
+    if (!searchParams.get('search')) {
+      setSearch('');
+    }
+  }, [searchParams.get('search')]);
 
   return (
-    // Search input field
     <Input
       type='search'
       placeholder='search product...'
       className='max-w-xs dark:bg-muted'
       value={search}
       onChange={(e) => {
-        // Update local state and trigger search on input change
+        // Update local state and trigger debounced search
         setSearch(e.target.value);
         handleSearch(e.target.value);
       }}
