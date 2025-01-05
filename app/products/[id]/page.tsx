@@ -1,4 +1,3 @@
-// Import required components and utilities
 import BreadCrumbs from '@/components/single-product/BreadCrumbs';
 import { fetchSingleProduct } from '@/utils/actions';
 import Image from 'next/image';
@@ -7,16 +6,20 @@ import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 
-type Props = {
+// Define params interface separately for better type inference
+interface SingleProductPageParams {
   params: {
     id: string;
   };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
 // Single Product Page Component
 // Displays detailed information about a specific product
-export default async function SingleProductPage({ params }: Props) {
+export default async function SingleProductPage({
+  params,
+  searchParams,
+}: SingleProductPageParams) {
   const product = await fetchSingleProduct(params.id);
   const { name, image, company, description, price } = product;
   const dollarsAmount = formatCurrency(price);
