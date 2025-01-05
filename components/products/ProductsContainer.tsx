@@ -1,3 +1,4 @@
+// Import necessary components and utilities
 import ProductsGrid from './ProductsGrid';
 import ProductsList from './ProductsList';
 import { LuLayoutGrid, LuList } from 'react-icons/lu';
@@ -6,7 +7,11 @@ import { Separator } from '@/components/ui/separator';
 import { fetchAllProducts } from '@/utils/actions';
 import Link from 'next/link';
 
-// Component props: layout (grid/list view) and search query
+/**
+ * ProductsContainer - A component that displays products in either grid or list layout
+ * @param layout - The current layout view ('grid' or 'list')
+ * @param search - Search query string for filtering products
+ */
 async function ProductsContainer({
   layout,
   search,
@@ -14,24 +19,26 @@ async function ProductsContainer({
   layout: string;
   search: string;
 }) {
-  // Fetch products and prepare display data
+  // Fetch products based on search criteria
   const products = await fetchAllProducts({ search });
+  // Calculate total number of products for display
   const totalProducts = products.length;
+  // Prepare search parameter for URL
   const searchTerm = search ? `&search=${search}` : '';
 
   return (
     <>
-      {/* Header section with product count and layout toggle */}
+      {/* Header section containing product count and view toggles */}
       <section>
-        {/* Product count and layout controls container */}
         <div className='flex justify-between items-center'>
-          {/* Product count display */}
+          {/* Display total number of products with proper pluralization */}
           <h4 className='font-medium text-lg'>
             {totalProducts} product{totalProducts > 1 ? 's' : ''}
           </h4>
-          {/* Layout toggle buttons */}
+
+          {/* Layout toggle buttons container */}
           <div className='flex gap-x-4'>
-            {/* Grid layout button */}
+            {/* Grid view toggle - active state handled by variant prop */}
             <Button
               variant={layout === 'grid' ? 'default' : 'ghost'}
               size='icon'
@@ -42,7 +49,7 @@ async function ProductsContainer({
               </Link>
             </Button>
 
-            {/* List layout button */}
+            {/* List view toggle - active state handled by variant prop */}
             <Button
               variant={layout === 'list' ? 'default' : 'ghost'}
               size='icon'
@@ -55,21 +62,22 @@ async function ProductsContainer({
           </div>
         </div>
 
+        {/* Visual separator between header and product display */}
         <Separator className='mt-4' />
       </section>
 
-      {/* Products display section */}
+      {/* Products display section with conditional rendering */}
       <div>
         {totalProducts === 0 ? (
-          // No results message
+          // Show message when no products match search criteria
           <h5 className='text-2xl mt-16'>
             Sorry, no products matched your search criteria ...
           </h5>
         ) : layout === 'grid' ? (
-          // Grid layout view
+          // Render grid layout if selected
           <ProductsGrid products={products} />
         ) : (
-          // List layout view
+          // Render list layout if selected
           <ProductsList products={products} />
         )}
       </div>
