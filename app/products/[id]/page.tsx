@@ -7,13 +7,15 @@ import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
 // Single Product Page Component
 // Displays detailed information about a specific product
-async function SingleProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }> | { id: string };
-}) {
+export default async function SingleProductPage({ params }: Props) {
   // Await params if it's a promise
   const resolvedParams = await Promise.resolve(params);
   // Fetch product details using the ID
@@ -65,4 +67,6 @@ async function SingleProductPage({
   );
 }
 
-export default SingleProductPage;
+export async function generateMetadata({ params }: Props) {
+  // ...existing code...
+}
