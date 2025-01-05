@@ -1,5 +1,6 @@
 // Database utility functions for product-related operations
 import prisma from '@/utils/db';
+import { redirect } from 'next/navigation';
 
 // Retrieves products marked as featured from the database
 export const fetchFeaturedProducts = async () => {
@@ -40,5 +41,17 @@ export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
   } catch (error) {
     console.error('Error fetching products:', error);
     return [];
+  }
+};
+
+// Retrieves a single product based on its unique ID
+export const fetchSingleProduct = async (productId: string) => {
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
+  if (!product) {
+    redirect('/products');
   }
 };
