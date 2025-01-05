@@ -16,22 +16,15 @@ type Props = {
 // Single Product Page Component
 // Displays detailed information about a specific product
 export default async function SingleProductPage({ params }: Props) {
-  // Await params if it's a promise
   const resolvedParams = await Promise.resolve(params);
-  // Fetch product details using the ID
   const product = await fetchSingleProduct(resolvedParams.id);
-  // Destructure necessary product information
   const { name, image, company, description, price } = product;
-  // Format price to currency string
   const dollarsAmount = formatCurrency(price);
 
   return (
     <section>
-      {/* Navigation breadcrumbs */}
       <BreadCrumbs name={product.name} />
-      {/* Main product layout grid */}
       <div className='mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16'>
-        {/* Product Image Container */}
         <div className='relative h-full'>
           <Image
             src={image}
@@ -42,31 +35,20 @@ export default async function SingleProductPage({ params }: Props) {
             className='w-full rounded-md object-cover'
           />
         </div>
-        {/* Product Information Container */}
         <div>
-          {/* Product Title and Favorite Button */}
           <div className='flex gap-x-8 items-center'>
             <h1 className='capitalize text-3xl font-bold'>{name}</h1>
             <FavoriteToggleButton productId={resolvedParams.id} />
           </div>
-          {/* Product Rating Component */}
           <ProductRating productId={resolvedParams.id} />
-          {/* Company Name */}
           <h4 className='text-xl mt-2'>{company}</h4>
-          {/* Product Price */}
           <p className='mt-3 text-md bg-muted inline-block p-2 rounded-md'>
             {dollarsAmount}
           </p>
-          {/* Product Description */}
           <p className='mt-6 leading-8 text-muted-foreground'>{description}</p>
-          {/* Add to Cart Button Component */}
           <AddToCart productId={resolvedParams.id} />
         </div>
       </div>
     </section>
   );
-}
-
-export async function generateMetadata({ params }: Props) {
-  // ...existing code...
 }
