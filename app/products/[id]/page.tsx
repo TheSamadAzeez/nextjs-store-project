@@ -24,6 +24,8 @@ export default async function SingleProductPage({
   const { name, image, company, description, price } = product;
   const dollarsAmount = formatCurrency(price);
 
+  console.log(searchParams);
+
   return (
     <section>
       <BreadCrumbs name={product.name} />
