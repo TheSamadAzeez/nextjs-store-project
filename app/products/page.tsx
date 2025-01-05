@@ -12,10 +12,10 @@ type SearchParamsType = {
 async function ProductsPage({
   searchParams,
 }: {
-  searchParams: SearchParamsType;
+  searchParams: Promise<SearchParamsType>;
 }) {
   // Await the searchParams to properly handle them in the server component
-  const params = await Promise.resolve(searchParams);
+  const params = await searchParams;
 
   const layout = params?.layout || 'grid';
   const search = params?.search || '';
