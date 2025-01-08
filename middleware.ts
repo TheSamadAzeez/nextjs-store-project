@@ -4,9 +4,9 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 const isPublicRoute = createRouteMatcher(['/', '/products(.*)', 'about']);
 
 // Setup Clerk middleware to protect non-public routes
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   // If the current route is not public, require authentication
-  if (!isPublicRoute(req)) auth.protect();
+  if (!isPublicRoute(req)) await auth.protect();
 });
 
 // Middleware configuration
