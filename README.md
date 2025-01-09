@@ -1541,7 +1541,7 @@ git add .
 git commit -m "first commit"
 ```
 
-- deploy on vercel
+- deploy on vercel.
 - setup env variables
 
 ### Toast Component
