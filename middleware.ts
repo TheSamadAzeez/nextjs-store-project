@@ -1,9 +1,20 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { log } from 'console';
+import { NextResponse } from 'next/server';
 
 const isPublicRoute = createRouteMatcher(['/', '/products(.*)', 'about']);
+const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 
 // Setup Clerk middleware to protect non-public routes
 export default clerkMiddleware(async (auth, req) => {
+  const isAdminUser = (await auth()).userId === process.env.ADMIN_USER_ID;
+
+  // Redirect unauthorized users to the homepage
+  if (isAdminRoute(req) && !isAdminUser) {
+    console.log('Unauthorized access to admin route');
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
   if (!isPublicRoute(req)) await auth.protect();
 });
 
