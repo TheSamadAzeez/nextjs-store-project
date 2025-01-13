@@ -1,3 +1,5 @@
+/**Type definitions for the application */
+
 export type actionFunction = (
   prevState: any,
   formData: FormData
