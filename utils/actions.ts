@@ -2,7 +2,26 @@
 
 // Database utility functions for product-related operations
 import prisma from '@/utils/db';
+import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { productSchema } from './schemas';
+import { actionFunction } from './types';
+
+// helper functions
+const getAuthUser = async () => {
+  const users = await currentUser();
+  if (!users) {
+    redirect('/');
+  }
+  return users;
+};
+
+const renderError = (error: unknown): { message: string } => {
+  console.log(error);
+  return {
+    message: error instanceof Error ? error.message : 'An error occurred',
+  };
+};
 
 // Retrieves products marked as featured from the database
 export const fetchFeaturedProducts = async () => {
@@ -59,9 +78,21 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
-export const createProductAction = async (
-  prevState: any,
-  formData: FormData
+// Updates product details based on the provided form data
+export const createProductAction: actionFunction = async (
+  prevState,
+  formData
 ): Promise<{ message: string }> => {
-  return { message: 'Product created successfully' };
+  const user = await getAuthUser();
+
+  try {
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = productSchema.parse(rawData);
+
+    console.log(rawData);
+
+    return { message: 'Product created successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
 };
