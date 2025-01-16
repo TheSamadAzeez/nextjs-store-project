@@ -24,3 +24,24 @@ export const productSchema = z.object({
     }
   ),
 });
+
+/**
+ * Validates data against a Zod schema and returns the parsed data
+ * @param schema - The Zod schema to validate against
+ * @param data - The data to validate
+ * @returns The validated and parsed data
+ * @throws {Error} Throws an error with concatenated validation messages if validation fails
+ */
+export function validateWithZodSchema<T>(
+  schema: ZodSchema<T>,
+  data: unknown
+): T {
+  const result = schema.safeParse(data);
+
+  if (!result.success) {
+    const errors = result.error.errors.map((error) => error.message);
+    throw new Error(errors.join(','));
+  }
+
+  return result.data;
+}
