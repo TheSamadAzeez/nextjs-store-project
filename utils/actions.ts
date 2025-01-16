@@ -4,7 +4,7 @@
 import prisma from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { productSchema } from './schemas';
+import { productSchema, validateWithZodSchema } from './schemas';
 import { actionFunction } from './types';
 
 // helper functions
@@ -78,7 +78,7 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
-// Updates product details based on the provided form data
+// createProductAction function
 export const createProductAction: actionFunction = async (
   prevState,
   formData
@@ -87,7 +87,15 @@ export const createProductAction: actionFunction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
-    const validatedFields = productSchema.parse(rawData);
+    const validatedFields = validateWithZodSchema(productSchema, rawData);
+
+    await prisma.product.create({
+      data: {
+        ...validatedFields,
+        image: '/images/hero2.jpg',
+        clerkId: user.id,
+      },
+    });
 
     console.log(rawData);
 
