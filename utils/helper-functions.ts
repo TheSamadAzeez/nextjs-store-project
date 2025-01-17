@@ -14,7 +14,7 @@ export const getAuthUser = async () => {
 export const getAdminUser = async () => {
   const user = await getAuthUser();
   if (user.id !== process.env.ADMIN_ID) {
-    redirect('/');
+    return redirect('/');
   }
   return user;
 };
