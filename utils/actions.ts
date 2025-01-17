@@ -6,7 +6,7 @@ import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { uploadImage } from './supabase';
 import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 
-// Retrieves products marked as featured from the database
+/** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
   const products = await prisma.product.findMany({
     where: {
@@ -16,8 +16,8 @@ export const fetchFeaturedProducts = async () => {
   return products;
 };
 
-// Searches and retrieves products based on name or company
-// Accepts a search parameter and performs case-insensitive matching
+/** FETCH ALL PRODUCTS */
+// Searches and retrieves products based on name or company and performs a case-insensitive matching
 export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
   try {
     const products = await prisma.product.findMany({
@@ -48,7 +48,7 @@ export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
   }
 };
 
-// Retrieves a single product based on its unique ID
+/** GET SINGLE PRODUCT */
 export const fetchSingleProduct = async (productId: string) => {
   const product = await prisma.product.findUnique({
     where: {
@@ -61,7 +61,7 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
-// createProductAction function
+/** CREATE PRODUCT */
 export const createProductAction = async (
   prevState: any,
   formData: FormData
@@ -92,11 +92,13 @@ export const createProductAction = async (
   redirect('/admin/products');
 };
 
+/** FETCH ADMIN PRODUCTS */
 export const fetchAdminProducts = async () => {
-  const user = await getAdminUser();
+  await getAdminUser();
   const products = await prisma.product.findMany({
-    where: {
-      clerkId: user.id,
+    orderBy: {
+      createdAt: 'desc',
     },
   });
+  return products;
 };
