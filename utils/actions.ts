@@ -1,6 +1,5 @@
 'use server';
 
-// Database utility functions for product-related operations
 import prisma from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
@@ -90,12 +89,14 @@ export const createProductAction = async (
   const user = await getAuthUser();
 
   try {
+    // Extract and validate form data
     const rawData = Object.fromEntries(formData);
-    const file = formData.get('image') as File;
+    const file = formData.get('image') as File; // get the image file from the form data
     const validatedFields = validateWithZodSchema(productSchema, rawData);
-    const validatedFile = validateWithZodSchema(imageSchema, { image: file });
-    const fullPath = await uploadImage(validatedFile.image);
+    const validatedFile = validateWithZodSchema(imageSchema, { image: file }); // validate the image file
 
+    // Upload image and create product
+    const fullPath = await uploadImage(validatedFile.image);
     await prisma.product.create({
       data: {
         ...validatedFields,
@@ -106,5 +107,7 @@ export const createProductAction = async (
   } catch (error) {
     return renderError(error);
   }
+
+  // Redirect to products page
   redirect('/admin/products');
 };
