@@ -1,30 +1,10 @@
 'use server';
 
 import prisma from '@/utils/db';
-import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { uploadImage } from './supabase';
-
-// helper functions
-const getAuthUser = async () => {
-  const users = await currentUser();
-  if (!users) {
-    redirect('/');
-  }
-  return users;
-};
-
-const renderError = (error: unknown): { message: string } => {
-  if (error === null) {
-    console.log('Error is null');
-    return { message: 'An error occurred' };
-  }
-  console.log(error);
-  return {
-    message: error instanceof Error ? error.message : 'An error occurred',
-  };
-};
+import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 
 // Retrieves products marked as featured from the database
 export const fetchFeaturedProducts = async () => {
@@ -110,4 +90,13 @@ export const createProductAction = async (
 
   // Redirect to products page
   redirect('/admin/products');
+};
+
+export const fetchAdminProducts = async () => {
+  const user = await getAdminUser();
+  const products = await prisma.product.findMany({
+    where: {
+      clerkId: user.id,
+    },
+  });
 };
