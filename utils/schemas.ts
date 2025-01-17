@@ -1,5 +1,6 @@
 import { z, ZodSchema } from 'zod';
 
+// Define a schema for product data
 export const productSchema = z.object({
   name: z
     .string()
@@ -24,6 +25,27 @@ export const productSchema = z.object({
     }
   ),
 });
+
+// Define a schema for image uploads
+export const imageSchema = z.object({
+  image: validateImageFile(),
+});
+
+// Validate image file
+function validateImageFile() {
+  const maxUploadSize = 1024 * 1024; // 1MB
+  const acceptedFileType = ['image/'];
+  return z
+    .instanceof(File, { message: 'File is required' })
+    .refine(
+      (file) => file.size <= maxUploadSize,
+      `File size must be less than 1MB`
+    )
+    .refine(
+      (file) => acceptedFileType.some((type) => file.type.startsWith(type)),
+      'Only image files are accepted'
+    );
+}
 
 /**
  * Validates data against a Zod schema and returns the parsed data

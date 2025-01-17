@@ -4,7 +4,7 @@
 import prisma from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { productSchema, validateWithZodSchema } from './schemas';
+import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { actionFunction } from './types';
 
 // helper functions
@@ -87,7 +87,9 @@ export const createProductAction: actionFunction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
+    const file = formData.get('image') as File;
     const validatedFields = validateWithZodSchema(productSchema, rawData);
+    const validateFile = validateWithZodSchema(imageSchema, { image: file });
 
     await prisma.product.create({
       data: {
@@ -96,8 +98,6 @@ export const createProductAction: actionFunction = async (
         clerkId: user.id,
       },
     });
-
-    console.log(rawData);
 
     return { message: 'Product created successfully' };
   } catch (error) {
