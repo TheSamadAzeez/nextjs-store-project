@@ -31,19 +31,25 @@ export const imageSchema = z.object({
   image: validateImageFile(),
 });
 
-// Validate image file
+// validate Image File
 function validateImageFile() {
-  const maxUploadSize = 1024 * 1024; // 1MB
-  const acceptedFileType = ['image/'];
+  const maxUploadSize = 1024 * 1024;
+  const acceptedFileTypes = ['image/'];
   return z
-    .instanceof(File, { message: 'File is required' })
+    .instanceof(File)
     .refine(
-      (file) => file.size <= maxUploadSize,
-      `File size must be less than 1MB`
+      (file) => {
+        return !file || file.size <= maxUploadSize;
+      },
+      { message: 'File size must be less than 1MB' }
     )
     .refine(
-      (file) => acceptedFileType.some((type) => file.type.startsWith(type)),
-      'Only image files are accepted'
+      (file) => {
+        return (
+          !file || acceptedFileTypes.some((type) => file.type.startsWith(type))
+        );
+      },
+      { message: 'File type must be an image' }
     );
 }
 
