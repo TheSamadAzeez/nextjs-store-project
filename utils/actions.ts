@@ -6,6 +6,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { actionFunction } from './types';
+import { uploadImage } from './supabase';
 
 // helper functions
 const getAuthUser = async () => {
@@ -90,17 +91,17 @@ export const createProductAction: actionFunction = async (
     const file = formData.get('image') as File;
     const validatedFields = validateWithZodSchema(productSchema, rawData);
     const validateFile = validateWithZodSchema(imageSchema, { image: file });
+    const fullPath = await uploadImage(validateFile.image);
 
     await prisma.product.create({
       data: {
         ...validatedFields,
-        image: '/images/hero2.jpg',
+        image: fullPath,
         clerkId: user.id,
       },
     });
-
-    return { message: 'Product created successfully' };
   } catch (error) {
     return renderError(error);
   }
+  redirect('/admin/products');
 };
