@@ -43,3 +43,31 @@ export function SubmitButton({
     </Button>
   );
 }
+
+/** ICON BUTTON  */
+type actionType = 'edit' | 'delete';
+
+function IconButton({ actionType }: { actionType: actionType }) {
+  const { pending } = useFormStatus();
+
+  const renderIcon = () => {
+    switch (actionType) {
+      case 'edit':
+        return <TbEdit />;
+      case 'delete':
+        return <LuTrash2 />;
+      default:
+        const never: never = actionType;
+        throw new Error(`Unhandled action type: ${never}`);
+    }
+  };
+
+  <Button
+    type='submit'
+    size='icon'
+    variant='link'
+    className='p-2 cursor-pointer'
+  >
+    {pending ? <RxReload className='animate-spin' /> : renderIcon()}
+  </Button>;
+}
