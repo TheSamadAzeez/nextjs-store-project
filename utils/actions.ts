@@ -104,6 +104,7 @@ export const fetchAdminProducts = async () => {
   return products;
 };
 
+/** DELETE PRODUCT */
 export const deleteProductAction = async (prevState: { productId: string }) => {
   const { productId } = prevState;
   await getAdminUser();
