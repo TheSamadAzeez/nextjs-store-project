@@ -47,7 +47,7 @@ export function SubmitButton({
 /** ICON BUTTON  */
 type actionType = 'edit' | 'delete';
 
-function IconButton({ actionType }: { actionType: actionType }) {
+export function IconButton({ actionType }: { actionType: actionType }) {
   const { pending } = useFormStatus();
 
   const renderIcon = () => {
@@ -62,12 +62,14 @@ function IconButton({ actionType }: { actionType: actionType }) {
     }
   };
 
-  <Button
-    type='submit'
-    size='icon'
-    variant='link'
-    className='p-2 cursor-pointer'
-  >
-    {pending ? <RxReload className='animate-spin' /> : renderIcon()}
-  </Button>;
+  return (
+    <Button
+      type='submit'
+      size='icon'
+      variant='link'
+      className='p-2 cursor-pointer'
+    >
+      {pending ? <RxReload className='animate-spin' /> : renderIcon()}
+    </Button>
+  );
 }
