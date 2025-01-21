@@ -105,6 +105,7 @@ export const fetchAdminProducts = async () => {
 };
 
 /** DELETE PRODUCT */
+// revamp later to also delete the image from the supabase storage
 export const deleteProductAction = async (prevState: { productId: string }) => {
   const { productId } = prevState;
   await getAdminUser();
