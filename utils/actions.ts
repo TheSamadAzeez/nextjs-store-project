@@ -6,7 +6,6 @@ import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { deleteImage, uploadImage } from './supabase';
 import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 import { revalidatePath } from 'next/cache';
-import exp from 'constants';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -147,7 +146,7 @@ export const updateProductAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  await getAdminUser();
+  await getAdminUser(); // Ensure user is an admin
   try {
     const productId = formData.get('id') as string;
     const rawData = Object.fromEntries(formData);
