@@ -6,6 +6,7 @@ import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 import { deleteImage, uploadImage } from './supabase';
 import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 import { revalidatePath } from 'next/cache';
+import exp from 'constants';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -124,4 +125,54 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
   } catch (error) {
     return renderError(error);
   }
+};
+
+/** GET ADMIN PRODUCT DETAILS */
+export const fetchAdminProductDetails = async (productId: string) => {
+  await getAdminUser();
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
+  // Redirect to products page if product is not found
+  if (!product) {
+    return redirect('/admin/products');
+  }
+  return product;
+};
+
+/** UPDATE PRODUCT */
+export const updateProductAction = async (
+  prevState: any,
+  formData: FormData
+) => {
+  await getAdminUser();
+  try {
+    const productId = formData.get('id') as string;
+    const rawData = Object.fromEntries(formData);
+
+    const validatedFields = validateWithZodSchema(productSchema, rawData);
+
+    await prisma.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        ...validatedFields,
+      },
+    });
+    revalidatePath(`/admin/products/${productId}/edit`);
+    return { message: 'Product updated successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+/** UPDATE PRODUCT IMAGE*/
+export const updateProductImageAction = async (
+  prevState: undefined,
+  formData: FormData
+) => {
+  return { message: 'Product Image updated successfully' };
 };
