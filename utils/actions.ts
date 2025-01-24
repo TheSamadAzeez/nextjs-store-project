@@ -170,8 +170,31 @@ export const updateProductAction = async (
 
 /** UPDATE PRODUCT IMAGE*/
 export const updateProductImageAction = async (
-  prevState: undefined,
+  prevState: any,
   formData: FormData
 ) => {
-  return { message: 'Product Image updated successfully' };
+  await getAdminUser();
+  try {
+    const image = formData.get('image') as File;
+    const productId = formData.get('id') as string;
+    const oldImageUrl = formData.get('url') as string;
+
+    const validatedFile = validateWithZodSchema(imageSchema, { image });
+    const fullPath = await uploadImage(validatedFile.image);
+    await deleteImage(oldImageUrl);
+
+    await prisma.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        image: fullPath,
+      },
+    });
+
+    revalidatePath(`/admin/products/${productId}/edit`);
+    return { message: 'Image updated successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
 };
