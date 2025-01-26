@@ -216,6 +216,7 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
   return favorite?.id || null;
 };
 
+/** TOGGLE FAVORITE ACTION */
 export const toggleFavoriteAction = async (prevState: {
   productId: string;
   favoriteId: string | null;
@@ -239,7 +240,9 @@ export const toggleFavoriteAction = async (prevState: {
       });
     }
     revalidatePath(pathname);
-    return { message: favoriteId ? 'Removed from Faves' : 'Added to Faves' };
+    return {
+      message: favoriteId ? 'Removed from Favorites' : 'Added to Favorites',
+    };
   } catch (error) {
     return renderError(error);
   }
