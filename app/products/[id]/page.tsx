@@ -5,6 +5,7 @@ import { formatCurrency } from '@/utils/format';
 import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
+import ShareButton from '@/components/single-product/ShareButton';
 
 // Single Product Page Component
 // Displays detailed information about a specific product
@@ -35,7 +36,10 @@ async function SingleProductPage({
         <div>
           <div className='flex gap-x-8 items-center'>
             <h1 className='capitalize text-3xl font-bold'>{name}</h1>
-            <FavoriteToggleButton productId={id} />
+            <div className='flex items-center gap-x-2'>
+              <FavoriteToggleButton productId={id} />
+              <ShareButton productId={id} name={name} />
+            </div>
           </div>
           <ProductRating productId={id} />
           <h4 className='text-xl mt-2'>{company}</h4>
