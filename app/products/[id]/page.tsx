@@ -6,6 +6,8 @@ import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
 import ShareButton from '@/components/single-product/ShareButton';
+import ProductReviews from '@/components/reviews/ProductReviews';
+import SubmitReview from '@/components/reviews/SubmitReview';
 
 // Single Product Page Component
 // Displays detailed information about a specific product
@@ -49,6 +51,10 @@ async function SingleProductPage({
           <p className='mt-6 leading-8 text-muted-foreground'>{description}</p>
           <AddToCart productId={id} />
         </div>
+      </div>
+      <div>
+        <ProductReviews productId={params.id} />
+        <SubmitReview productId={params.id} />
       </div>
     </section>
   );
