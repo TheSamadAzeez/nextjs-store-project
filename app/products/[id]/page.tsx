@@ -53,8 +53,8 @@ async function SingleProductPage({
         </div>
       </div>
       <div>
-        <ProductReviews productId={params.id} />
-        <SubmitReview productId={params.id} />
+        <ProductReviews productId={id} />
+        <SubmitReview productId={id} />
       </div>
     </section>
   );
