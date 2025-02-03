@@ -2,7 +2,12 @@
 
 import prisma from '@/utils/db';
 import { redirect } from 'next/navigation';
-import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
+import {
+  imageSchema,
+  productSchema,
+  reviewSchema,
+  validateWithZodSchema,
+} from './schemas';
 import { deleteImage, uploadImage } from './supabase';
 import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 import { revalidatePath } from 'next/cache';
@@ -269,7 +274,23 @@ export const createReviewAction = async (
   prevState: any,
   formData: FormData
 ) => {
-  return { message: 'review submitted successfully' };
+  const user = await getAuthUser();
+  try {
+    const rawData = Object.fromEntries(formData);
+
+    const validatedFields = validateWithZodSchema(reviewSchema, rawData);
+
+    await prisma.review.create({
+      data: {
+        ...validatedFields,
+        clerkId: user.id,
+      },
+    });
+    revalidatePath(`/products/${validatedFields.productId}`);
+    return { message: 'Review submitted successfully' };
+  } catch (error) {
+    return renderError(error);
+  }
 };
 
 export const fetchProductReviews = async () => {};
