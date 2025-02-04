@@ -3,11 +3,11 @@ import { redirect } from 'next/navigation';
 
 // Retrieves the current user
 export const getAuthUser = async () => {
-  const users = await currentUser();
-  if (!users) {
+  const user = await currentUser();
+  if (!user) {
     redirect('/');
   }
-  return users;
+  return user;
 };
 
 // Retrieves the current user and checks if they are an admin
