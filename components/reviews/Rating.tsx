@@ -1,6 +1,8 @@
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 function Rating({ rating }: { rating: number }) {
+  // e.g rating = 3
+  // stars = [true, true, true, false, false]
   const stars = Array.from({ length: 5 }, (_, i) => i + 1 <= rating);
 
   return (
