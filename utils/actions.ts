@@ -329,6 +329,32 @@ export const fetchProductRating = async (productId: string) => {
   };
 };
 
-export const fetchProductReviewsByUser = async () => {};
+/** FETCH PRODUCT REVIEWS BY USER */
+export const fetchProductReviewsByUser = async () => {
+  const user = await getAuthUser();
+
+  const reviews = await prisma.review.findMany({
+    where: {
+      clerkId: user.id,
+    },
+    select: {
+      id: true,
+      rating: true,
+      comment: true,
+      product:{
+        select:{
+          name:true,
+          image:true,
+        }
+      }
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return reviews;
+};
+
 export const deleteReviewAction = async () => {};
+
 export const findExistingReview = async () => {};
