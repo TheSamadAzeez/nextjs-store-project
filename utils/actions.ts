@@ -322,7 +322,6 @@ export const fetchProductRating = async (productId: string) => {
     },
   });
 
-  console.log(result);
   return {
     rating: result[0]?._avg.rating?.toFixed(1) ?? 0, // Return the average rating
     count: result[0]?._count.rating ?? 0, // Return the count of ratings
