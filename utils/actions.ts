@@ -306,7 +306,29 @@ export const fetchProductReviews = async (productId: string) => {
   return reviews;
 };
 
+/** FETCH PRODUCT RATING */
+// Fetches the average rating and count of reviews for a specific product
+export const fetchProductRating = async (productId: string) => {
+  const result = await prisma.review.groupBy({
+    by: ['productId'], // Group by productId
+    _avg: {
+      rating: true, // Calculate the average rating
+    },
+    _count: {
+      rating: true, // Count the number of ratings
+    },
+    where: {
+      productId, // Filter by the given productId
+    },
+  });
+
+  console.log(result);
+  return {
+    rating: result[0]?._avg.rating?.toFixed(1) ?? 0, // Return the average rating
+    count: result[0]?._count.rating ?? 0, // Return the count of ratings
+  };
+};
+
 export const fetchProductReviewsByUser = async () => {};
 export const deleteReviewAction = async () => {};
 export const findExistingReview = async () => {};
-export const fetchProductRating = async () => {};
