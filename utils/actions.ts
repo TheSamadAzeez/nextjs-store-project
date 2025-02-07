@@ -269,7 +269,7 @@ export const fetchUserFavorites = async () => {
   return favorites;
 };
 
-/** FETCH PRODUCT REVIEWS */
+/** CREATE PRODUCT REVIEW ACTION */
 export const createReviewAction = async (
   prevState: any,
   formData: FormData
