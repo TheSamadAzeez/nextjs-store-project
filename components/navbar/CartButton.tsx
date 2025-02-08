@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { LuShoppingCart } from 'react-icons/lu';
+import { fetchCartItems } from '@/utils/actions';
 
 async function CartButton() {
-  // temporary value, replace this with your own logic
-  const numberOfItems: number = 9;
+  const numberOfItems: number = await fetchCartItems();
 
   return (
     <Button

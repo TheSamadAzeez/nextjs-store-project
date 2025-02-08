@@ -11,6 +11,7 @@ import {
 import { deleteImage, uploadImage } from './supabase';
 import { getAdminUser, renderError, getAuthUser } from './helper-functions';
 import { revalidatePath } from 'next/cache';
+import { auth } from '@clerk/nextjs/server';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -385,3 +386,36 @@ export const findExistingReview = async (
     },
   })
 };
+
+/** FETCH CART ITEMS */
+export const fetchCartItems = async () => {
+  const { userId } = await auth();
+
+  const cart = await prisma.cart.findFirst({
+    where: {
+      clerkId: userId ?? '',
+    },
+    select: {
+      numItemsInCart: true,
+    },
+  });
+  return cart?.numItemsInCart || 0;
+};
+
+const fetchProduct = async () => {};
+
+/** FETCH OR CREATE CART */
+export const fetchOrCreateCart = async () => {};
+
+const updateOrCreateCartItem = async () => {};
+
+export const updateCart = async () => {};
+
+/** ADD TO CART ACTION */
+export const addToCartAction = async () => {};
+
+/** REMOVE CART ITEM ACTION */
+export const removeCartItemAction = async () => {};
+
+/** UPDATE CART ITEM ACTION */
+export const updateCartItemAction = async () => {};
