@@ -375,16 +375,13 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
 };
 
 /** FIND EXISTING REVIEW */
-export const findExistingReview = async (
-  userId: string,
-  productId: string
-) => {
+export const findExistingReview = async (userId: string, productId: string) => {
   return prisma.review.findFirst({
     where: {
       clerkId: userId,
       productId,
     },
-  })
+  });
 };
 
 /** FETCH CART ITEMS */
@@ -412,7 +409,9 @@ const updateOrCreateCartItem = async () => {};
 export const updateCart = async () => {};
 
 /** ADD TO CART ACTION */
-export const addToCartAction = async () => {};
+export const addToCartAction = async (prevState: any, formData: FormData) => {
+  return { message: 'product added to cart' };
+};
 
 /** REMOVE CART ITEM ACTION */
 export const removeCartItemAction = async () => {};
