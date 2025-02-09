@@ -1,5 +1,6 @@
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import prisma from './db';
 
 // Retrieves the current user
 export const getAuthUser = async () => {
@@ -29,4 +30,17 @@ export const renderError = (error: unknown): { message: string } => {
   return {
     message: error instanceof Error ? error.message : 'An error occurred',
   };
+};
+
+// Fetches a product by ID
+export const fetchProduct = async (productId: string) => {
+  const product = await prisma.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
+  if (!product) {
+    throw new Error('Product not found');
+  }
+  return product;
 };
