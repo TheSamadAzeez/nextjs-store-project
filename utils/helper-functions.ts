@@ -44,3 +44,41 @@ export const fetchProduct = async (productId: string) => {
   }
   return product;
 };
+
+// Include clause to fetch products in the cart
+const includeProductClause = {
+  cartItems: {
+    include: {
+      product: true,
+    },
+  },
+};
+
+/** FETCH OR CREATE CART */
+export const fetchOrCreateCart = async ({
+  userId,
+  errorOnFailure = false,
+}: {
+  userId: string;
+  errorOnFailure?: boolean;
+}) => {
+  // Fetch the cart, including the products in the cart if it exists for the user
+  let cart = await prisma.cart.findFirst({
+    where: {
+      clerkId: userId,
+    },
+    include: includeProductClause,
+  });
+  // Throw an error if cart is not found and errorOnFailure is true
+  if (!cart && errorOnFailure) {
+    throw new Error('Cart not found');
+  }
+  // Create a new cart if one does not exist
+  if (!cart) {
+    const cart = await prisma.cart.create({
+      data: { clerkId: userId },
+      include: includeProductClause,
+    });
+  }
+  return cart;
+};
