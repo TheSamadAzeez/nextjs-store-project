@@ -14,6 +14,7 @@ import {
   renderError,
   getAuthUser,
   fetchProduct,
+  fetchOrCreateCart,
 } from './helper-functions';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@clerk/nextjs/server';
@@ -405,9 +406,6 @@ export const fetchCartItems = async () => {
   return cart?.numItemsInCart || 0;
 };
 
-/** FETCH OR CREATE CART */
-export const fetchOrCreateCart = async () => {};
-
 const updateOrCreateCartItem = async () => {};
 
 export const updateCart = async () => {};
@@ -418,8 +416,8 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   try {
     const productId = formData.get('productId') as string;
     const amount = Number(formData.get('amount'));
-
     await fetchProduct(productId);
+    const cart = fetchOrCreateCart({ userId: user.id });
   } catch (error) {
     renderError(error);
   }
