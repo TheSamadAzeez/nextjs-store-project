@@ -406,10 +406,6 @@ export const fetchCartItems = async () => {
   return cart?.numItemsInCart || 0;
 };
 
-const updateOrCreateCartItem = async () => {};
-
-export const updateCart = async () => {};
-
 /** ADD TO CART ACTION */
 export const addToCartAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
@@ -429,3 +425,7 @@ export const removeCartItemAction = async () => {};
 
 /** UPDATE CART ITEM ACTION */
 export const updateCartItemAction = async () => {};
+
+const updateOrCreateCartItem = async () => {};
+
+export const updateCart = async () => {};
