@@ -9,9 +9,15 @@ import {
   validateWithZodSchema,
 } from './schemas';
 import { deleteImage, uploadImage } from './supabase';
-import { getAdminUser, renderError, getAuthUser } from './helper-functions';
+import {
+  getAdminUser,
+  renderError,
+  getAuthUser,
+  fetchProduct,
+} from './helper-functions';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@clerk/nextjs/server';
+import { error } from 'console';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -399,8 +405,6 @@ export const fetchCartItems = async () => {
   return cart?.numItemsInCart || 0;
 };
 
-const fetchProduct = async () => {};
-
 /** FETCH OR CREATE CART */
 export const fetchOrCreateCart = async () => {};
 
@@ -410,7 +414,16 @@ export const updateCart = async () => {};
 
 /** ADD TO CART ACTION */
 export const addToCartAction = async (prevState: any, formData: FormData) => {
-  return { message: 'product added to cart' };
+  const user = await getAuthUser();
+  try {
+    const productId = formData.get('productId') as string;
+    const amount = Number(formData.get('amount'));
+
+    await fetchProduct(productId);
+  } catch (error) {
+    renderError(error);
+  }
+  redirect('/cart');
 };
 
 /** REMOVE CART ITEM ACTION */
