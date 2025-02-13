@@ -95,7 +95,6 @@ const includeProductClause = {
  * @param {Object} params - The parameters for fetching or creating the cart.
  * @param {string} params.userId - The ID of the user.
  * @param {boolean} [params.errorOnFailure=false] - Whether to throw an error if the cart is not found.
- * @returns {Promise<Cart>} - The fetched or newly created cart.
  * @throws {Error} - If the cart is not found and errorOnFailure is true.
  */
 export const fetchOrCreateCart = async ({
@@ -133,7 +132,6 @@ export const fetchOrCreateCart = async ({
  * @param {string} params.productId - The ID of the product.
  * @param {string} params.cartId - The ID of the cart.
  * @param {number} params.amount - The amount to update or create the cart item with.
- * @returns {Promise<void>} - A promise that resolves when the operation is complete.
  */
 export const updateOrCreateCartItem = async ({
   productId,
@@ -177,7 +175,6 @@ export const updateOrCreateCartItem = async ({
  * total cost, tax, shipping, and order total.
  *
  * @param {Cart} cart - The cart object to be updated.
- * @returns {Promise<Cart>} - The updated cart object.
  */
 export const updateCart = async (cart: Cart) => {
   const cartItems = await prisma.cartItem.findMany({
