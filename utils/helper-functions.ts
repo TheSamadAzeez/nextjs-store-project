@@ -82,3 +82,41 @@ export const fetchOrCreateCart = async ({
   }
   return cart;
 };
+
+/** UPDATE OR CREATE CART ITEM */
+export const updateOrCreateCartItem = async ({
+  productId,
+  cartId,
+  amount,
+}: {
+  productId: string;
+  cartId: string;
+  amount: number;
+}) => {
+  let cartItem = await prisma.cartItem.findFirst({
+    where: {
+      productId,
+      cartId,
+    },
+  });
+  // update cart item (amount) if it exists
+  if (cartItem) {
+    cartItem = await prisma.cartItem.update({
+      where: {
+        id: cartItem.id,
+      },
+      data: {
+        amount: cartItem.amount + amount,
+      },
+    });
+  } else {
+    // create cart item if it does not exist
+    cartItem = await prisma.cartItem.create({
+      data: {
+        productId,
+        cartId,
+        amount,
+      },
+    });
+  }
+};
