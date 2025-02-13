@@ -75,7 +75,7 @@ export const fetchOrCreateCart = async ({
   }
   // Create a new cart if one does not exist
   if (!cart) {
-    const cart = await prisma.cart.create({
+    cart = await prisma.cart.create({
       data: { clerkId: userId },
       include: includeProductClause,
     });
