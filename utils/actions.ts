@@ -413,10 +413,10 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   try {
     const productId = formData.get('productId') as string;
     const amount = Number(formData.get('amount'));
-    await fetchProduct(productId);
-    const cart = await fetchOrCreateCart({ userId: user.id });
-    await updateOrCreateCartItem({ productId, cartId: cart.id, amount });
-    updateCart(cart);
+    await fetchProduct(productId); // Ensure product exists
+    const cart = await fetchOrCreateCart({ userId: user.id }); // Fetch or create cart
+    await updateOrCreateCartItem({ productId, cartId: cart.id, amount }); // Update or create cart item
+    updateCart(cart); // Update cart with new item
   } catch (error) {
     renderError(error);
   }
