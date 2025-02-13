@@ -1,8 +1,16 @@
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import prisma from './db';
+import { Cart } from '@prisma/client';
 
 // Retrieves the current user
+/**
+ * Retrieves the current authenticated user.
+ *
+ * This function uses the Clerk library to get the current user. If no user is authenticated,
+ * it redirects to the home page.
+ *
+ */
 export const getAuthUser = async () => {
   const user = await currentUser();
   if (!user) {
@@ -12,6 +20,14 @@ export const getAuthUser = async () => {
 };
 
 // Retrieves the current user and checks if they are an admin
+/**
+ * Retrieves the current authenticated user and checks if they are an admin.
+ *
+ * This function first retrieves the current user using `getAuthUser`. It then checks if the user's
+ * ID matches the admin user ID specified in the environment variables. If the user is not an admin,
+ * it redirects to the home page.
+ *
+ */
 export const getAdminUser = async () => {
   const user = await getAuthUser();
   if (user.id !== process.env.ADMIN_USER_ID) {
@@ -21,6 +37,16 @@ export const getAdminUser = async () => {
 };
 
 // Renders error messages
+/**
+ * Renders error messages.
+ *
+ * This function takes an error object and returns a standardized error message.
+ * If the error is null, it logs 'Error is null' and returns a generic error message.
+ * If the error is an instance of Error, it returns the error's message. Otherwise,
+ * it returns a generic error message.
+ *
+ * @param {unknown} error - The error object to render.
+ */
 export const renderError = (error: unknown): { message: string } => {
   if (error === null) {
     console.log('Error is null');
@@ -32,7 +58,16 @@ export const renderError = (error: unknown): { message: string } => {
   };
 };
 
-// Fetches a product by ID
+/**
+ * Fetches a product by its ID from the database.
+ *
+ * This function queries the database for a product with the specified ID.
+ * If the product is found, it is returned. If the product is not found,
+ * an error is thrown.
+ *
+ * @param {string} productId - The ID of the product to fetch.
+ * @throws {Error} - If the product is not found, an error is thrown with the message 'Product not found'.
+ */
 export const fetchProduct = async (productId: string) => {
   const product = await prisma.product.findUnique({
     where: {
@@ -54,7 +89,15 @@ const includeProductClause = {
   },
 };
 
-/** FETCH OR CREATE CART */
+/**
+ * Fetches the cart for the given user. If the cart does not exist, it creates a new one.
+ *
+ * @param {Object} params - The parameters for fetching or creating the cart.
+ * @param {string} params.userId - The ID of the user.
+ * @param {boolean} [params.errorOnFailure=false] - Whether to throw an error if the cart is not found.
+ * @returns {Promise<Cart>} - The fetched or newly created cart.
+ * @throws {Error} - If the cart is not found and errorOnFailure is true.
+ */
 export const fetchOrCreateCart = async ({
   userId,
   errorOnFailure = false,
@@ -83,7 +126,15 @@ export const fetchOrCreateCart = async ({
   return cart;
 };
 
-/** UPDATE OR CREATE CART ITEM */
+/**
+ * Updates an existing cart item with the given amount or creates a new cart item if it does not exist.
+ *
+ * @param {Object} params - The parameters for updating or creating the cart item.
+ * @param {string} params.productId - The ID of the product.
+ * @param {string} params.cartId - The ID of the cart.
+ * @param {number} params.amount - The amount to update or create the cart item with.
+ * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+ */
 export const updateOrCreateCartItem = async ({
   productId,
   cartId,
@@ -119,4 +170,43 @@ export const updateOrCreateCartItem = async ({
       },
     });
   }
+};
+
+/**
+ * Updates the cart with the latest information including the number of items,
+ * total cost, tax, shipping, and order total.
+ *
+ * @param {Cart} cart - The cart object to be updated.
+ * @returns {Promise<Cart>} - The updated cart object.
+ */
+export const updateCart = async (cart: Cart) => {
+  const cartItems = await prisma.cartItem.findMany({
+    where: {
+      cartId: cart.id,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  let numItemsInCart = 0;
+  let cartTotal = 0;
+
+  // Calculate the total number of items in the cart and the total cost of the cart
+  for (const item of cartItems) {
+    numItemsInCart += item.amount;
+    cartTotal += item.amount * item.product.price;
+  }
+  const tax = cart.taxRate * cartTotal;
+  const shipping = cartTotal ? cart.shipping : 0; // Calculate shipping cost
+  const orderTotal = cartTotal + tax + shipping; // Calculate the total cost of the order
+
+  const currentCart = await prisma.cart.update({
+    where: {
+      id: cart.id,
+    },
+    data: { numItemsInCart, cartTotal, tax, shipping, orderTotal }, // Update the cart with the new values
+    include: includeProductClause,
+  });
+  return currentCart;
 };

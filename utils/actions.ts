@@ -16,10 +16,10 @@ import {
   fetchProduct,
   fetchOrCreateCart,
   updateOrCreateCartItem,
+  updateCart,
 } from './helper-functions';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@clerk/nextjs/server';
-import { error } from 'console';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -416,6 +416,7 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
     await fetchProduct(productId);
     const cart = await fetchOrCreateCart({ userId: user.id });
     await updateOrCreateCartItem({ productId, cartId: cart.id, amount });
+    updateCart(cart);
   } catch (error) {
     renderError(error);
   }
@@ -427,5 +428,3 @@ export const removeCartItemAction = async () => {};
 
 /** UPDATE CART ITEM ACTION */
 export const updateCartItemAction = async () => {};
-
-export const updateCart = async () => {};
