@@ -428,3 +428,8 @@ export const removeCartItemAction = async () => {};
 
 /** UPDATE CART ITEM ACTION */
 export const updateCartItemAction = async () => {};
+
+/** CREATE ORDER ACTION */
+export const createOrderAction = async (prevState: any, formData: FormData) => {
+  return { message: 'Order placed successfully' };
+};
