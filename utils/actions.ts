@@ -20,6 +20,7 @@ import {
 } from './helper-functions';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@clerk/nextjs/server';
+import { get } from 'http';
 
 /** FETCH FEATURED PRODUCTS */
 export const fetchFeaturedProducts = async () => {
@@ -424,7 +425,30 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
 };
 
 /** REMOVE CART ITEM ACTION */
-export const removeCartItemAction = async () => {};
+export const removeCartItemAction = async (
+  prevState: any,
+  formData: FormData
+) => {
+  try {
+    const user = await getAuthUser();
+    const cartItemId = formData.get('id') as string;
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    await prisma.cartItem.delete({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+    });
+    await updateCart(cart);
+    revalidatePath('/cart');
+    return { message: 'item removed from cart' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
 
 /** UPDATE CART ITEM ACTION */
 export const updateCartItemAction = async () => {};
