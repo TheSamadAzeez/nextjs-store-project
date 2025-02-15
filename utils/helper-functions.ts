@@ -195,8 +195,12 @@ export const updateCart = async (cart: Cart) => {
     cartTotal += item.amount * item.product.price;
   }
   const tax = cart.taxRate * cartTotal;
-  const shipping = cartTotal ? cart.shipping : 0; // Calculate shipping cost
+  const shipping = cartTotal > 0 ? cart.shipping : 0; // Ensure shipping is applied correctly
   const orderTotal = cartTotal + tax + shipping; // Calculate the total cost of the order
+
+  // console.log(
+  //   `Cart Total: ${cartTotal}, Tax: ${tax}, Shipping: ${shipping}, Order Total: ${orderTotal}`
+  // );
 
   const currentCart = await prisma.cart.update({
     where: {
