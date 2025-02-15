@@ -23,6 +23,7 @@ import { auth } from '@clerk/nextjs/server';
 import { get } from 'http';
 
 /** FETCH FEATURED PRODUCTS */
+// Retrieves all products marked as featured
 export const fetchFeaturedProducts = async () => {
   const products = await prisma.product.findMany({
     where: {
@@ -65,6 +66,7 @@ export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
 };
 
 /** GET SINGLE PRODUCT */
+// Retrieves a single product by its ID
 export const fetchSingleProduct = async (productId: string) => {
   const product = await prisma.product.findUnique({
     where: {
@@ -78,6 +80,7 @@ export const fetchSingleProduct = async (productId: string) => {
 };
 
 /** CREATE PRODUCT */
+// Creates a new product with the provided form data
 export const createProductAction = async (
   prevState: any,
   formData: FormData
@@ -109,6 +112,7 @@ export const createProductAction = async (
 };
 
 /** FETCH ADMIN PRODUCTS */
+// Retrieves all products for the admin view
 export const fetchAdminProducts = async () => {
   await getAdminUser();
   const products = await prisma.product.findMany({
@@ -120,6 +124,7 @@ export const fetchAdminProducts = async () => {
 };
 
 /** DELETE PRODUCT */
+// Deletes a product by its ID
 export const deleteProductAction = async (prevState: { productId: string }) => {
   const { productId } = prevState;
   await getAdminUser();
@@ -142,6 +147,7 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
 };
 
 /** GET ADMIN PRODUCT DETAILS */
+// Retrieves details of a single product for the admin view
 export const fetchAdminProductDetails = async (productId: string) => {
   await getAdminUser();
   const product = await prisma.product.findUnique({
@@ -157,6 +163,7 @@ export const fetchAdminProductDetails = async (productId: string) => {
 };
 
 /** UPDATE PRODUCT */
+// Updates a product with the provided form data
 export const updateProductAction = async (
   prevState: any,
   formData: FormData
@@ -184,6 +191,7 @@ export const updateProductAction = async (
 };
 
 /** UPDATE PRODUCT IMAGE*/
+// Updates the image of a product
 export const updateProductImageAction = async (
   prevState: any,
   formData: FormData
@@ -232,6 +240,7 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
 };
 
 /** TOGGLE FAVORITE ACTION */
+// Toggles the favorite status of a product for the current user
 export const toggleFavoriteAction = async (prevState: {
   productId: string;
   favoriteId: string | null;
@@ -264,6 +273,7 @@ export const toggleFavoriteAction = async (prevState: {
 };
 
 /** FETCH USER FAVORITES */
+// Retrieves all favorite products for the current user
 export const fetchUserFavorites = async () => {
   const user = await getAuthUser();
 
@@ -280,6 +290,7 @@ export const fetchUserFavorites = async () => {
 };
 
 /** CREATE PRODUCT REVIEW ACTION */
+// Creates a new review for a product
 export const createReviewAction = async (
   prevState: any,
   formData: FormData
@@ -304,6 +315,7 @@ export const createReviewAction = async (
 };
 
 /** FETCH PRODUCT REVIEWS */
+// Retrieves all reviews for a specific product
 export const fetchProductReviews = async (productId: string) => {
   const reviews = await prisma.review.findMany({
     where: {
@@ -339,6 +351,7 @@ export const fetchProductRating = async (productId: string) => {
 };
 
 /** FETCH PRODUCT REVIEWS BY USER */
+// Retrieves all reviews made by the current user
 export const fetchProductReviewsByUser = async () => {
   const user = await getAuthUser();
 
@@ -365,6 +378,7 @@ export const fetchProductReviewsByUser = async () => {
 };
 
 /** DELETE REVIEW */
+// Deletes a review by its ID
 export const deleteReviewAction = async (prevState: { reviewId: string }) => {
   const { reviewId } = prevState;
 
@@ -384,6 +398,7 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
 };
 
 /** FIND EXISTING REVIEW */
+// Finds an existing review by user ID and product ID
 export const findExistingReview = async (userId: string, productId: string) => {
   return prisma.review.findFirst({
     where: {
@@ -394,6 +409,7 @@ export const findExistingReview = async (userId: string, productId: string) => {
 };
 
 /** FETCH CART ITEMS */
+// Retrieves the number of items in the current user's cart
 export const fetchCartItems = async () => {
   const { userId } = await auth();
 
@@ -409,6 +425,7 @@ export const fetchCartItems = async () => {
 };
 
 /** ADD TO CART ACTION */
+// Adds a product to the current user's cart
 export const addToCartAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
   try {
@@ -425,6 +442,7 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
 };
 
 /** REMOVE CART ITEM ACTION */
+// Removes an item from the current user's cart
 export const removeCartItemAction = async (
   prevState: any,
   formData: FormData
@@ -451,6 +469,7 @@ export const removeCartItemAction = async (
 };
 
 /** UPDATE CART ITEM ACTION */
+// Updates the quantity of an item in the current user's cart
 export const updateCartItemAction = async ({
   amount,
   cartItemId,
@@ -484,6 +503,41 @@ export const updateCartItemAction = async ({
 };
 
 /** CREATE ORDER ACTION */
+// Creates a new order from the current user's cart
 export const createOrderAction = async (prevState: any, formData: FormData) => {
-  return { message: 'Order placed successfully' };
+  const user = await getAuthUser();
+  try {
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+
+    const order = await prisma.order.create({
+      data: {
+        clerkId: user.id,
+        products: cart.numItemsInCart,
+        orderTotal: cart.orderTotal,
+        tax: cart.tax,
+        shipping: cart.shipping,
+        email: user.emailAddresses[0].emailAddress,
+      },
+    });
+    // Clear the cart after order is placed
+    await prisma.cart.delete({
+      where: {
+        id: cart.id,
+      },
+    });
+  } catch (error) {
+    return renderError(error);
+  }
+  redirect('/orders');
 };
+
+/** FETCH USER ORDERS */
+// Retrieves all orders for the current user
+// export const fetchUserOrders = async () => {};
+
+/** FETCH ADMIN ORDERS */
+// Retrieves all orders for the admin view
+// export const fetchAdminOrders = async () => {};
