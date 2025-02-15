@@ -6,7 +6,6 @@ import FormContainer from '../form/FormContainer';
 import { SubmitButton } from '../form/Buttons';
 import { removeCartItemAction, updateCartItemAction } from '@/utils/actions';
 import { useToast } from '@/hooks/use-toast';
-import { set } from 'zod';
 
 function ThirdColumn({ quantity, id }: { quantity: number; id: string }) {
   const [amount, setAmount] = useState(quantity);
