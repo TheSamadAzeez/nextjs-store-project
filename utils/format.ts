@@ -13,3 +13,18 @@ export const formatCurrency = (amount: number | null) => {
     currency: 'USD',
   }).format(value);
 };
+
+/**
+ * Formats a date as a string in 'Month Day, Year' format
+ * @param date - The date to format
+ * @returns The formatted date string
+ * @example
+ * formatDate(new Date('2023-10-05')) // returns "October 5, 2023"
+ */
+export const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+};
