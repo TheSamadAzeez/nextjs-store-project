@@ -536,8 +536,29 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
 
 /** FETCH USER ORDERS */
 // Retrieves all orders for the current user
-// export const fetchUserOrders = async () => {};
+export const fetchUserOrders = async () => {
+  const user = await getAuthUser();
+  const orders = await prisma.order.findMany({
+    where: {
+      clerkId: user.id,
+      isPaid: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return orders;
+};
 
 /** FETCH ADMIN ORDERS */
 // Retrieves all orders for the admin view
-// export const fetchAdminOrders = async () => {};
+export const fetchAdminOrders = async () => {
+  await getAdminUser();
+  const orders = await prisma.order.findMany({
+    where: { isPaid: true },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+  return orders;
+};
