@@ -118,7 +118,7 @@ export const fetchOrCreateCart = async ({
   // Create a new cart if one does not exist
   if (!cart) {
     cart = await prisma.cart.create({
-      data: { clerkId: userId },
+      data: { clerkId: userId }, // Set default shipping value
       include: includeProductClause,
     });
   }
@@ -182,7 +182,7 @@ export const updateCart = async (cart: Cart) => {
       cartId: cart.id,
     },
     include: {
-      product: true,
+      product: true, // Include the related product
     },
     orderBy: {
       createdAt: 'asc',
@@ -192,26 +192,32 @@ export const updateCart = async (cart: Cart) => {
   let numItemsInCart = 0;
   let cartTotal = 0;
 
-  // Calculate the total number of items in the cart and the total cost of the cart
+  // Calculate the total number of items in the cart and the total cost of the items
   for (const item of cartItems) {
     numItemsInCart += item.amount;
     cartTotal += item.amount * item.product.price;
   }
-
   const tax = cart.taxRate * cartTotal;
-  const defaultShipping = 5; // Default shipping value
-  const shipping = cartTotal > 0 ? cart.shipping || defaultShipping : 0; // Ensure shipping is applied correctly
+  const shipping = cartTotal ? cart.shipping : 0;
   const orderTotal = cartTotal + tax + shipping; // Calculate the total cost of the order
 
-  // console.log(
-  //   `Cart Total: ${cartTotal}, Tax: ${tax}, Shipping: ${shipping}, Order Total: ${orderTotal}`
-  // );
+  console.log(
+    `Cart Total: ${cartTotal}, Tax: ${tax}, Shipping: ${shipping}, Order Total: ${orderTotal}`
+  );
 
+  // Update the cart with the latest information
   const currentCart = await prisma.cart.update({
     where: {
       id: cart.id,
     },
-    data: { numItemsInCart, cartTotal, tax, shipping, orderTotal }, // Update the cart with the new values
+
+    data: {
+      numItemsInCart,
+      cartTotal,
+      tax,
+      shipping, // Include the shipping field
+      orderTotal,
+    },
     include: includeProductClause,
   });
   return { currentCart, cartItems };
