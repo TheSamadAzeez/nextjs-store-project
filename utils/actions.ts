@@ -512,7 +512,7 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
       errorOnFailure: true,
     });
 
-    const order = await prisma.order.create({
+    await prisma.order.create({
       data: {
         clerkId: user.id,
         products: cart.numItemsInCart,
