@@ -197,8 +197,10 @@ export const updateCart = async (cart: Cart) => {
     numItemsInCart += item.amount;
     cartTotal += item.amount * item.product.price;
   }
+
   const tax = cart.taxRate * cartTotal;
-  const shipping = cartTotal > 0 ? cart.shipping : 0; // Ensure shipping is applied correctly
+  const defaultShipping = 5; // Default shipping value
+  const shipping = cartTotal > 0 ? cart.shipping || defaultShipping : 0; // Ensure shipping is applied correctly
   const orderTotal = cartTotal + tax + shipping; // Calculate the total cost of the order
 
   // console.log(
