@@ -506,13 +506,26 @@ export const updateCartItemAction = async ({
 // Creates a new order from the current user's cart
 export const createOrderAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
+
+  let orderId: null | string = null;
+  let cartId: null | string = null;
   try {
     const cart = await fetchOrCreateCart({
       userId: user.id,
       errorOnFailure: true,
     });
+    cartId = cart.id;
 
-    await prisma.order.create({
+    //  delete all unpaid orders
+    await prisma.order.deleteMany({
+      where: {
+        clerkId: user.id,
+        isPaid: false,
+      },
+    });
+
+    // Create a new order
+    const order = await prisma.order.create({
       data: {
         clerkId: user.id,
         products: cart.numItemsInCart,
@@ -522,16 +535,12 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
         email: user.emailAddresses[0].emailAddress,
       },
     });
-    // Clear the cart after order is placed
-    await prisma.cart.delete({
-      where: {
-        id: cart.id,
-      },
-    });
+    orderId = order.id;
   } catch (error) {
     return renderError(error);
   }
-  redirect('/orders');
+  // Redirect to checkout page with order ID and cart ID as query parameters
+  redirect(`/checkout?orderId=${orderId}&cartId=${cartId}`);
 };
 
 /** FETCH USER ORDERS */
