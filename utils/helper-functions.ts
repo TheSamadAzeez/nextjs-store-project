@@ -177,6 +177,7 @@ export const updateOrCreateCartItem = async ({
  * @param {Cart} cart - The cart object to be updated.
  */
 export const updateCart = async (cart: Cart) => {
+  // Fetch the cart items for the cart
   const cartItems = await prisma.cartItem.findMany({
     where: {
       cartId: cart.id,
