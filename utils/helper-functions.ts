@@ -201,9 +201,9 @@ export const updateCart = async (cart: Cart) => {
   const shipping = cartTotal ? cart.shipping : 0;
   const orderTotal = cartTotal + tax + shipping; // Calculate the total cost of the order
 
-  console.log(
-    `Cart Total: ${cartTotal}, Tax: ${tax}, Shipping: ${shipping}, Order Total: ${orderTotal}`
-  );
+  // console.log(
+  //   `Cart Total: ${cartTotal}, Tax: ${tax}, Shipping: ${shipping}, Order Total: ${orderTotal}`
+  // );
 
   // Update the cart with the latest information
   const currentCart = await prisma.cart.update({
