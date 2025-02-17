@@ -506,17 +506,18 @@ export const updateCartItemAction = async ({
 // Creates a new order from the current user's cart
 export const createOrderAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
-
   let orderId: null | string = null;
   let cartId: null | string = null;
+
   try {
+    // Fetch or create cart
     const cart = await fetchOrCreateCart({
       userId: user.id,
       errorOnFailure: true,
     });
     cartId = cart.id;
 
-    //  delete all unpaid orders
+    // Delete unpaid orders
     await prisma.order.deleteMany({
       where: {
         clerkId: user.id,
@@ -524,7 +525,7 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
       },
     });
 
-    // Create a new order
+    // Create order
     const order = await prisma.order.create({
       data: {
         clerkId: user.id,
