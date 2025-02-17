@@ -31,7 +31,7 @@ async function SingleProductPage({
     <section>
       <BreadCrumbs name={product.name} />
       <div className='mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16'>
-        <div className='relative h-full'>
+        <div className='relative h-full min-h-[300px] lg:h-auto'>
           <Image
             src={image}
             alt={name}
