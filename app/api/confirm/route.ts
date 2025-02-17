@@ -21,7 +21,7 @@ export const GET = async (req: NextRequest) => {
     const orderId = session.metadata?.orderId;
     const cartId = session.metadata?.cartId;
 
-    // If session is complete, update order status and delete cart
+    // If payment is complete, update order and delete cart
     if (session.status === 'complete') {
       await db.order.update({
         where: {
@@ -37,9 +37,9 @@ export const GET = async (req: NextRequest) => {
         },
       });
     }
-  } catch (error) {
+  } catch (err) {
     // Log error and return 500 response
-    console.log(error);
+    console.log(err);
     return Response.json(null, {
       status: 500,
       statusText: 'Internal Server Error',
