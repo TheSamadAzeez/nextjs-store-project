@@ -1,14 +1,13 @@
-// Import Stripe library and initialize with secret key
 import Stripe from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
-// Import necessary modules from Next.js and database utility
 import { type NextRequest } from 'next/server';
 import db from '@/utils/db';
 
+// Initialize stripe with secret key
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+
 // Define POST request handler
 export const POST = async (req: NextRequest) => {
-  // Extract request headers and origin
+  // Get request headers and origin
   const requestHeaders = new Headers(req.headers);
   const origin = requestHeaders.get('origin');
 
@@ -21,7 +20,6 @@ export const POST = async (req: NextRequest) => {
       id: orderId,
     },
   });
-  
   const cart = await db.cart.findUnique({
     where: {
       id: cartId,
@@ -43,7 +41,7 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
-  // Map cart items to Stripe line items format
+  // Prepare line items for Stripe checkout session
   const line_items = cart.cartItems.map((cartItem) => {
     return {
       quantity: cartItem.amount,
@@ -59,7 +57,7 @@ export const POST = async (req: NextRequest) => {
   });
 
   try {
-    // Create a Stripe checkout session
+    // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
       metadata: { orderId, cartId },
@@ -68,7 +66,7 @@ export const POST = async (req: NextRequest) => {
       return_url: `${origin}/api/confirm?session_id={CHECKOUT_SESSION_ID}`,
     });
 
-    // Return the client secret of the session
+    // Return client secret for the session
     return Response.json({ clientSecret: session.client_secret });
   } catch (error) {
     // Log error and return 500 response
