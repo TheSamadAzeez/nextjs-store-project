@@ -6,11 +6,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import SectionTitle from '@/components/global/SectionTitle';
-import { fetchUserOrders } from '@/utils/actions';
-import { formatCurrency, formatDate } from '@/utils/format';
+import SectionTitle from "@/components/global/SectionTitle";
+import { fetchUserOrders } from "@/utils/actions";
+import { formatCurrency, formatDate } from "@/utils/format";
 
 // Define the OrdersPage component
 async function OrdersPage() {
@@ -20,7 +20,7 @@ async function OrdersPage() {
   return (
     <>
       {/* Section title */}
-      <SectionTitle text='Your Orders' />
+      <SectionTitle text="Your Orders" />
       <div>
         {/* Orders table */}
         <Table>

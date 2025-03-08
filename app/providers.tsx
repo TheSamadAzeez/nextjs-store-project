@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { ThemeProvider } from './theme-provider';
+import { ThemeProvider } from "./theme-provider";
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ThemeProvider
-        attribute='class'
-        defaultTheme='system'
+        attribute="class"
+        defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >

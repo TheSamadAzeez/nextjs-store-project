@@ -4,12 +4,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 // Define the modes for the component
 export enum Mode {
-  SingleProduct = 'singleProduct',
-  CartItem = 'cartItem',
+  SingleProduct = "singleProduct",
+  CartItem = "cartItem",
 }
 
 // Define the props for the SelectProductAmount component when in SingleProduct mode
@@ -29,7 +29,7 @@ type SelectCartItemAmountProps = {
 
 // Component to select the product amount
 function SelectProductAmount(
-  props: SelectProductAmountProps | SelectCartItemAmountProps
+  props: SelectProductAmountProps | SelectCartItemAmountProps,
 ) {
   const { mode, amount, setAmount } = props;
 
@@ -38,13 +38,13 @@ function SelectProductAmount(
 
   return (
     <>
-      <h4 className='mb-2'>Amount : </h4>
+      <h4 className="mb-2">Amount : </h4>
       <Select
         defaultValue={amount.toString()}
         onValueChange={(value) => setAmount(Number(value))}
         disabled={cartItem ? props.isLoading : false}
       >
-        <SelectTrigger className={cartItem ? 'w-[100px]' : 'w-[150px]'}>
+        <SelectTrigger className={cartItem ? "w-[100px]" : "w-[150px]"}>
           <SelectValue placeholder={amount} />
         </SelectTrigger>
         <SelectContent>

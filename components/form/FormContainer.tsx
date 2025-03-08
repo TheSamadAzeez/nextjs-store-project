@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useActionState } from 'react';
-import { useEffect } from 'react';
-import { actionFunction } from '@/utils/types';
-import { useToast } from '@/hooks/use-toast';
+import { useActionState } from "react";
+import { useEffect } from "react";
+import { actionFunction } from "@/utils/types";
+import { useToast } from "@/hooks/use-toast";
 
 const initialState = {
-  message: '',
+  message: "",
 };
 
 /**

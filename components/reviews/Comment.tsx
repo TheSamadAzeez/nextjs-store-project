@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '../ui/button';
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 function Comment({ comment }: { comment: string }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -15,14 +15,14 @@ function Comment({ comment }: { comment: string }) {
 
   return (
     <div>
-      <p className='text-sm'>{displayComment}</p>
+      <p className="text-sm">{displayComment}</p>
       {longComment && (
         <Button
-          variant='link'
-          className='pl-0 text-muted-foreground'
+          variant="link"
+          className="pl-0 text-muted-foreground"
           onClick={toggleExpanded}
         >
-          {isExpanded ? 'Show Less' : 'Show More'}
+          {isExpanded ? "Show Less" : "Show More"}
         </Button>
       )}
     </div>

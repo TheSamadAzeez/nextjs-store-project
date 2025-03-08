@@ -1,6 +1,6 @@
-import Stripe from 'stripe';
-import { type NextRequest } from 'next/server';
-import db from '@/utils/db';
+import Stripe from "stripe";
+import { type NextRequest } from "next/server";
+import db from "@/utils/db";
 
 // Initialize stripe with secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const POST = async (req: NextRequest) => {
   // Get request headers and origin
   const requestHeaders = new Headers(req.headers);
-  const origin = requestHeaders.get('origin');
+  const origin = requestHeaders.get("origin");
 
   // Parse orderId and cartId from request body
   const { orderId, cartId } = await req.json();
@@ -37,7 +37,7 @@ export const POST = async (req: NextRequest) => {
   if (!order || !cart) {
     return Response.json(null, {
       status: 404,
-      statusText: 'Not Found',
+      statusText: "Not Found",
     });
   }
 
@@ -46,7 +46,7 @@ export const POST = async (req: NextRequest) => {
     return {
       quantity: cartItem.amount,
       price_data: {
-        currency: 'usd',
+        currency: "usd",
         product_data: {
           name: cartItem.product.name,
           images: [cartItem.product.image],
@@ -59,10 +59,10 @@ export const POST = async (req: NextRequest) => {
   try {
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
-      ui_mode: 'embedded',
+      ui_mode: "embedded",
       metadata: { orderId, cartId },
       line_items: line_items,
-      mode: 'payment',
+      mode: "payment",
       return_url: `${origin}/api/confirm?session_id={CHECKOUT_SESSION_ID}`,
     });
 
@@ -74,7 +74,7 @@ export const POST = async (req: NextRequest) => {
 
     return Response.json(null, {
       status: 500,
-      statusText: 'Internal Server Error',
+      statusText: "Internal Server Error",
     });
   }
 };

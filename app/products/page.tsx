@@ -1,4 +1,4 @@
-import ProductsContainer from '@/components/products/ProductsContainer';
+import ProductsContainer from "@/components/products/ProductsContainer";
 
 /** URL search parameters for product filtering and display */
 type SearchParamsType = {
@@ -17,8 +17,8 @@ async function ProductsPage({
   // Await the searchParams to properly handle them in the server component
   const params = await searchParams;
 
-  const layout = params?.layout || 'grid';
-  const search = params?.search || '';
+  const layout = params?.layout || "grid";
+  const search = params?.search || "";
 
   return <ProductsContainer layout={layout} search={search} />;
 }

@@ -4,8 +4,8 @@
  * After seeding, it disconnects the PrismaClient.
  */
 
-const { PrismaClient } = require('@prisma/client');
-const products = require('./products.json');
+const { PrismaClient } = require("@prisma/client");
+const products = require("./products.json");
 const prisma = new PrismaClient();
 
 async function main() {

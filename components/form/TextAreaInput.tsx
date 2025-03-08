@@ -1,5 +1,5 @@
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 type TextAreaInputProps = {
   name: string;
@@ -9,8 +9,8 @@ type TextAreaInputProps = {
 
 function TextAreaInput({ name, label, defaultValue }: TextAreaInputProps) {
   return (
-    <div className='mb-2'>
-      <Label htmlFor={name} className='capitalize'>
+    <div className="mb-2">
+      <Label htmlFor={name} className="capitalize">
         {label || name}
       </Label>
       <Textarea
@@ -19,7 +19,7 @@ function TextAreaInput({ name, label, defaultValue }: TextAreaInputProps) {
         defaultValue={defaultValue}
         rows={5}
         required
-        className='leading-loose'
+        className="leading-loose"
       />
     </div>
   );

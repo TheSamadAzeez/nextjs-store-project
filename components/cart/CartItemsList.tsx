@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Card } from '@/components/ui/card';
-import { FirstColumn, SecondColumn, FourthColumn } from './CartItemColumns';
-import ThirdColumn from './ThirdColumn';
-import { CartItemWithProduct } from '@/utils/types';
+import { Card } from "@/components/ui/card";
+import { FirstColumn, SecondColumn, FourthColumn } from "./CartItemColumns";
+import ThirdColumn from "./ThirdColumn";
+import { CartItemWithProduct } from "@/utils/types";
 
 function CartItemsList({ cartItems }: { cartItems: CartItemWithProduct[] }) {
   return (
@@ -14,7 +14,7 @@ function CartItemsList({ cartItems }: { cartItems: CartItemWithProduct[] }) {
         return (
           <Card
             key={id}
-            className='flex flex-col gap-y-4 md:flex-row flex-wrap p-6 mb-8 gap-x-4'
+            className="flex flex-col gap-y-4 md:flex-row flex-wrap p-6 mb-8 gap-x-4"
           >
             <FirstColumn name={name} image={image} />
             <SecondColumn name={name} company={company} productId={productId} />

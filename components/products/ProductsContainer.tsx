@@ -1,11 +1,11 @@
 // Import necessary components and utilities
-import ProductsGrid from './ProductsGrid';
-import ProductsList from './ProductsList';
-import { LuLayoutGrid, LuList } from 'react-icons/lu';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { fetchAllProducts } from '@/utils/actions';
-import Link from 'next/link';
+import ProductsGrid from "./ProductsGrid";
+import ProductsList from "./ProductsList";
+import { LuLayoutGrid, LuList } from "react-icons/lu";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { fetchAllProducts } from "@/utils/actions";
+import Link from "next/link";
 
 /**
  * ProductsContainer - A component that displays products in either grid or list layout
@@ -24,24 +24,24 @@ async function ProductsContainer({
   // Calculate total number of products for display
   const totalProducts = products.length;
   // Prepare search parameter for URL
-  const searchTerm = search ? `&search=${search}` : '';
+  const searchTerm = search ? `&search=${search}` : "";
 
   return (
     <>
       {/* Header section containing product count and view toggles */}
       <section>
-        <div className='flex justify-between items-center'>
+        <div className="flex justify-between items-center">
           {/* Display total number of products with proper pluralization */}
-          <h4 className='font-medium text-lg'>
-            {totalProducts} product{totalProducts > 1 ? 's' : ''}
+          <h4 className="font-medium text-lg">
+            {totalProducts} product{totalProducts > 1 ? "s" : ""}
           </h4>
 
           {/* Layout toggle buttons container */}
-          <div className='flex gap-x-4'>
+          <div className="flex gap-x-4">
             {/* Grid view toggle - active state handled by variant prop */}
             <Button
-              variant={layout === 'grid' ? 'default' : 'ghost'}
-              size='icon'
+              variant={layout === "grid" ? "default" : "ghost"}
+              size="icon"
               asChild
             >
               <Link href={`/products?layout=grid${searchTerm}`}>
@@ -51,8 +51,8 @@ async function ProductsContainer({
 
             {/* List view toggle - active state handled by variant prop */}
             <Button
-              variant={layout === 'list' ? 'default' : 'ghost'}
-              size='icon'
+              variant={layout === "list" ? "default" : "ghost"}
+              size="icon"
               asChild
             >
               <Link href={`/products?layout=list${searchTerm}`}>
@@ -63,17 +63,17 @@ async function ProductsContainer({
         </div>
 
         {/* Visual separator between header and product display */}
-        <Separator className='mt-4' />
+        <Separator className="mt-4" />
       </section>
 
       {/* Products display section with conditional rendering */}
       <div>
         {totalProducts === 0 ? (
           // Show message when no products match search criteria
-          <h5 className='text-2xl mt-16'>
+          <h5 className="text-2xl mt-16">
             Sorry, no products matched your search criteria ...
           </h5>
-        ) : layout === 'grid' ? (
+        ) : layout === "grid" ? (
           // Render grid layout if selected
           <ProductsGrid products={products} />
         ) : (

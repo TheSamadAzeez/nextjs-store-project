@@ -1,7 +1,7 @@
-import { currentUser } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
-import prisma from './db';
-import { Cart } from '@prisma/client';
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import prisma from "./db";
+import { Cart } from "@prisma/client";
 
 // Retrieves the current user
 /**
@@ -14,7 +14,7 @@ import { Cart } from '@prisma/client';
 export const getAuthUser = async () => {
   const user = await currentUser();
   if (!user) {
-    redirect('/');
+    redirect("/");
   }
   return user;
 };
@@ -31,7 +31,7 @@ export const getAuthUser = async () => {
 export const getAdminUser = async () => {
   const user = await getAuthUser();
   if (user.id !== process.env.ADMIN_USER_ID) {
-    return redirect('/');
+    return redirect("/");
   }
   return user;
 };
@@ -49,12 +49,12 @@ export const getAdminUser = async () => {
  */
 export const renderError = (error: unknown): { message: string } => {
   if (error === null) {
-    console.log('Error is null');
-    return { message: 'An error occurred' };
+    console.log("Error is null");
+    return { message: "An error occurred" };
   }
   console.log(error);
   return {
-    message: error instanceof Error ? error.message : 'An error occurred',
+    message: error instanceof Error ? error.message : "An error occurred",
   };
 };
 
@@ -75,7 +75,7 @@ export const fetchProduct = async (productId: string) => {
     },
   });
   if (!product) {
-    throw new Error('Product not found');
+    throw new Error("Product not found");
   }
   return product;
 };
@@ -113,7 +113,7 @@ export const fetchOrCreateCart = async ({
   });
   // Throw an error if cart is not found and errorOnFailure is true
   if (!cart && errorOnFailure) {
-    throw new Error('Cart not found');
+    throw new Error("Cart not found");
   }
   // Create a new cart if one does not exist
   if (!cart) {
@@ -186,7 +186,7 @@ export const updateCart = async (cart: Cart) => {
       product: true, // Include the related product
     },
     orderBy: {
-      createdAt: 'asc',
+      createdAt: "asc",
     },
   });
 

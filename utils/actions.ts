@@ -1,14 +1,14 @@
-'use server';
+"use server";
 
-import prisma from '@/utils/db';
-import { redirect } from 'next/navigation';
+import prisma from "@/utils/db";
+import { redirect } from "next/navigation";
 import {
   imageSchema,
   productSchema,
   reviewSchema,
   validateWithZodSchema,
-} from './schemas';
-import { deleteImage, uploadImage } from './supabase';
+} from "./schemas";
+import { deleteImage, uploadImage } from "./supabase";
 import {
   getAdminUser,
   renderError,
@@ -17,10 +17,10 @@ import {
   fetchOrCreateCart,
   updateOrCreateCartItem,
   updateCart,
-} from './helper-functions';
-import { revalidatePath } from 'next/cache';
-import { auth } from '@clerk/nextjs/server';
-import { get } from 'http';
+} from "./helper-functions";
+import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
+import { get } from "http";
 
 /** FETCH FEATURED PRODUCTS */
 // Retrieves all products marked as featured
@@ -35,7 +35,7 @@ export const fetchFeaturedProducts = async () => {
 
 /** FETCH ALL PRODUCTS */
 // Searches and retrieves products based on name or company and performs a case-insensitive matching
-export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
+export const fetchAllProducts = async ({ search = "" }: { search: string }) => {
   try {
     const products = await prisma.product.findMany({
       where: {
@@ -43,24 +43,24 @@ export const fetchAllProducts = async ({ search = '' }: { search: string }) => {
           {
             name: {
               contains: search,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
           {
             company: {
               contains: search,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
         ],
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
     return products;
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("Error fetching products:", error);
     return [];
   }
 };
@@ -74,7 +74,7 @@ export const fetchSingleProduct = async (productId: string) => {
     },
   });
   if (!product) {
-    redirect('/products');
+    redirect("/products");
   }
   return product;
 };
@@ -83,14 +83,14 @@ export const fetchSingleProduct = async (productId: string) => {
 // Creates a new product with the provided form data
 export const createProductAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
 
   try {
     // Extract and validate form data
     const rawData = Object.fromEntries(formData);
-    const file = formData.get('image') as File; // get the image file from the form data
+    const file = formData.get("image") as File; // get the image file from the form data
     const validatedFields = validateWithZodSchema(productSchema, rawData);
     const validatedFile = validateWithZodSchema(imageSchema, { image: file }); // validate the image file
 
@@ -108,7 +108,7 @@ export const createProductAction = async (
   }
 
   // Redirect to products page
-  redirect('/admin/products');
+  redirect("/admin/products");
 };
 
 /** FETCH ADMIN PRODUCTS */
@@ -117,7 +117,7 @@ export const fetchAdminProducts = async () => {
   await getAdminUser();
   const products = await prisma.product.findMany({
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
   return products;
@@ -138,9 +138,9 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
 
     await deleteImage(product.image);
 
-    revalidatePath('/admin/products');
+    revalidatePath("/admin/products");
 
-    return { message: 'Product removed' };
+    return { message: "Product removed" };
   } catch (error) {
     return renderError(error);
   }
@@ -157,7 +157,7 @@ export const fetchAdminProductDetails = async (productId: string) => {
   });
   // Redirect to products page if product is not found
   if (!product) {
-    return redirect('/admin/products');
+    return redirect("/admin/products");
   }
   return product;
 };
@@ -166,11 +166,11 @@ export const fetchAdminProductDetails = async (productId: string) => {
 // Updates a product with the provided form data
 export const updateProductAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ) => {
   await getAdminUser(); // Ensure user is an admin
   try {
-    const productId = formData.get('id') as string;
+    const productId = formData.get("id") as string;
     const rawData = Object.fromEntries(formData);
 
     const validatedFields = validateWithZodSchema(productSchema, rawData);
@@ -184,7 +184,7 @@ export const updateProductAction = async (
       },
     });
     revalidatePath(`/admin/products/${productId}/edit`);
-    return { message: 'Product updated successfully' };
+    return { message: "Product updated successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -194,13 +194,13 @@ export const updateProductAction = async (
 // Updates the image of a product
 export const updateProductImageAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ) => {
   await getAdminUser();
   try {
-    const image = formData.get('image') as File;
-    const productId = formData.get('id') as string;
-    const oldImageUrl = formData.get('url') as string;
+    const image = formData.get("image") as File;
+    const productId = formData.get("id") as string;
+    const oldImageUrl = formData.get("url") as string;
 
     const validatedFile = validateWithZodSchema(imageSchema, { image });
     const fullPath = await uploadImage(validatedFile.image);
@@ -216,7 +216,7 @@ export const updateProductImageAction = async (
     });
 
     revalidatePath(`/admin/products/${productId}/edit`);
-    return { message: 'Image updated successfully' };
+    return { message: "Image updated successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -265,7 +265,7 @@ export const toggleFavoriteAction = async (prevState: {
     }
     revalidatePath(pathname);
     return {
-      message: favoriteId ? 'Removed from Favorites' : 'Added to Favorites',
+      message: favoriteId ? "Removed from Favorites" : "Added to Favorites",
     };
   } catch (error) {
     return renderError(error);
@@ -293,7 +293,7 @@ export const fetchUserFavorites = async () => {
 // Creates a new review for a product
 export const createReviewAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ) => {
   const user = await getAuthUser();
   try {
@@ -308,7 +308,7 @@ export const createReviewAction = async (
       },
     });
     revalidatePath(`/products/${validatedFields.productId}`);
-    return { message: 'Review submitted successfully' };
+    return { message: "Review submitted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -322,7 +322,7 @@ export const fetchProductReviews = async (productId: string) => {
       productId,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
   return reviews;
@@ -332,7 +332,7 @@ export const fetchProductReviews = async (productId: string) => {
 // Fetches the average rating and count of reviews for a specific product
 export const fetchProductRating = async (productId: string) => {
   const result = await prisma.review.groupBy({
-    by: ['productId'], // Group by productId
+    by: ["productId"], // Group by productId
     _avg: {
       rating: true, // Calculate the average rating
     },
@@ -371,7 +371,7 @@ export const fetchProductReviewsByUser = async () => {
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
   return reviews;
@@ -390,8 +390,8 @@ export const deleteReviewAction = async (prevState: { reviewId: string }) => {
         clerkId: user.id,
       },
     });
-    revalidatePath('/reviews');
-    return { message: 'review deleted successfully' };
+    revalidatePath("/reviews");
+    return { message: "review deleted successfully" };
   } catch (error) {
     return renderError(error);
   }
@@ -415,7 +415,7 @@ export const fetchCartItems = async () => {
 
   const cart = await prisma.cart.findFirst({
     where: {
-      clerkId: userId ?? '',
+      clerkId: userId ?? "",
     },
     select: {
       numItemsInCart: true,
@@ -429,8 +429,8 @@ export const fetchCartItems = async () => {
 export const addToCartAction = async (prevState: any, formData: FormData) => {
   const user = await getAuthUser();
   try {
-    const productId = formData.get('productId') as string;
-    const amount = Number(formData.get('amount'));
+    const productId = formData.get("productId") as string;
+    const amount = Number(formData.get("amount"));
     await fetchProduct(productId); // Ensure product exists
     const cart = await fetchOrCreateCart({ userId: user.id }); // Fetch or create cart
     await updateOrCreateCartItem({ productId, cartId: cart.id, amount }); // Update or create cart item
@@ -438,18 +438,18 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   } catch (error) {
     renderError(error);
   }
-  redirect('/cart');
+  redirect("/cart");
 };
 
 /** REMOVE CART ITEM ACTION */
 // Removes an item from the current user's cart
 export const removeCartItemAction = async (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ) => {
   try {
     const user = await getAuthUser();
-    const cartItemId = formData.get('id') as string;
+    const cartItemId = formData.get("id") as string;
     const cart = await fetchOrCreateCart({
       userId: user.id,
       errorOnFailure: true,
@@ -461,8 +461,8 @@ export const removeCartItemAction = async (
       },
     });
     await updateCart(cart);
-    revalidatePath('/cart');
-    return { message: 'item removed from cart' };
+    revalidatePath("/cart");
+    return { message: "item removed from cart" };
   } catch (error) {
     return renderError(error);
   }
@@ -495,8 +495,8 @@ export const updateCartItemAction = async ({
     });
 
     await updateCart(cart);
-    revalidatePath('/cart');
-    return { message: 'cart updated' };
+    revalidatePath("/cart");
+    return { message: "cart updated" };
   } catch (error) {
     return renderError(error);
   }
@@ -554,7 +554,7 @@ export const fetchUserOrders = async () => {
       isPaid: true,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
   return orders;
@@ -567,7 +567,7 @@ export const fetchAdminOrders = async () => {
   const orders = await prisma.order.findMany({
     where: { isPaid: true },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
   return orders;

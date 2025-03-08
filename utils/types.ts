@@ -1,6 +1,6 @@
 /**Type definitions for the application */
 
-import { Prisma } from '@prisma/client';
+import { Prisma } from "@prisma/client";
 
 export type CartItemWithProduct = Prisma.CartItemGetPayload<{
   include: { product: true };
@@ -8,7 +8,7 @@ export type CartItemWithProduct = Prisma.CartItemGetPayload<{
 
 export type actionFunction = (
   prevState: any,
-  formData: FormData
+  formData: FormData,
 ) => Promise<{ message: string }>;
 
 export type CartItem = {

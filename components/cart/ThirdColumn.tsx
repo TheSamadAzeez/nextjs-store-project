@@ -1,11 +1,11 @@
-'use client';
-import { useState } from 'react';
-import SelectProductAmount from '../single-product/SelectProductAmount';
-import { Mode } from '../single-product/SelectProductAmount';
-import FormContainer from '../form/FormContainer';
-import { SubmitButton } from '../form/Buttons';
-import { removeCartItemAction, updateCartItemAction } from '@/utils/actions';
-import { useToast } from '@/hooks/use-toast';
+"use client";
+import { useState } from "react";
+import SelectProductAmount from "../single-product/SelectProductAmount";
+import { Mode } from "../single-product/SelectProductAmount";
+import FormContainer from "../form/FormContainer";
+import { SubmitButton } from "../form/Buttons";
+import { removeCartItemAction, updateCartItemAction } from "@/utils/actions";
+import { useToast } from "@/hooks/use-toast";
 
 function ThirdColumn({ quantity, id }: { quantity: number; id: string }) {
   // State to manage the amount of product
@@ -18,7 +18,7 @@ function ThirdColumn({ quantity, id }: { quantity: number; id: string }) {
   // Function to handle amount change
   const handleAmountChange = async (value: number) => {
     setIsLoading(true);
-    toast({ description: 'Updating cart item...' });
+    toast({ description: "Updating cart item..." });
     const result = await updateCartItemAction({
       amount: value,
       cartItemId: id,
@@ -29,7 +29,7 @@ function ThirdColumn({ quantity, id }: { quantity: number; id: string }) {
   };
 
   return (
-    <div className='md:ml-8'>
+    <div className="md:ml-8">
       {/* Component to select product amount */}
       <SelectProductAmount
         amount={amount}
@@ -39,8 +39,8 @@ function ThirdColumn({ quantity, id }: { quantity: number; id: string }) {
       />
       {/* Form to remove cart item */}
       <FormContainer action={removeCartItemAction}>
-        <input type='hidden' name='id' value={id} />
-        <SubmitButton size='sm' className='mt-4' text='remove' />
+        <input type="hidden" name="id" value={id} />
+        <SubmitButton size="sm" className="mt-4" text="remove" />
       </FormContainer>
     </div>
   );

@@ -8,9 +8,9 @@
  */
 export const formatCurrency = (amount: number | null) => {
   const value = amount || 0;
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   }).format(value);
 };
 
@@ -22,9 +22,9 @@ export const formatCurrency = (amount: number | null) => {
  * formatDate(new Date('2023-10-05')) // returns "October 5, 2023"
  */
 export const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   }).format(date);
 };

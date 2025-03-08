@@ -1,7 +1,7 @@
-import EmptyList from '@/components/global/EmptyList';
-import { deleteProductAction, fetchAdminProducts } from '@/utils/actions';
-import Link from 'next/link';
-import { formatCurrency } from '@/utils/format';
+import EmptyList from "@/components/global/EmptyList";
+import { deleteProductAction, fetchAdminProducts } from "@/utils/actions";
+import Link from "next/link";
+import { formatCurrency } from "@/utils/format";
 import {
   Table,
   TableBody,
@@ -10,9 +10,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { IconButton } from '@/components/form/Buttons';
-import FormContainer from '@/components/form/FormContainer';
+} from "@/components/ui/table";
+import { IconButton } from "@/components/form/Buttons";
+import FormContainer from "@/components/form/FormContainer";
 
 async function AdminProductsPage() {
   const items = await fetchAdminProducts();
@@ -22,7 +22,7 @@ async function AdminProductsPage() {
   return (
     <section>
       <Table>
-        <TableCaption className='capitalize'>
+        <TableCaption className="capitalize">
           Total products : {items.length}
         </TableCaption>
         <TableHeader>
@@ -41,7 +41,7 @@ async function AdminProductsPage() {
                 <TableCell>
                   <Link
                     href={`/products/${productId}`}
-                    className='underline text-muted-foreground tracking-wide capitalize'
+                    className="underline text-muted-foreground tracking-wide capitalize"
                   >
                     {name}
                   </Link>
@@ -49,9 +49,9 @@ async function AdminProductsPage() {
                 <TableCell>{company}</TableCell>
                 <TableCell>{formatCurrency(price)}</TableCell>
 
-                <TableCell className='flex items-center gap-x-2'>
+                <TableCell className="flex items-center gap-x-2">
                   <Link href={`/admin/products/${productId}/edit`}>
-                    <IconButton actionType='edit' />
+                    <IconButton actionType="edit" />
                   </Link>
                   <DeleteProduct productId={productId} />
                 </TableCell>
@@ -69,7 +69,7 @@ function DeleteProduct({ productId }: { productId: string }) {
   const deleteProduct = deleteProductAction.bind(null, { productId }); // bind the product id to the delete product action
   return (
     <FormContainer action={deleteProduct}>
-      <IconButton actionType='delete' />
+      <IconButton actionType="delete" />
     </FormContainer>
   );
 }

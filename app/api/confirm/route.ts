@@ -1,7 +1,7 @@
-import Stripe from 'stripe';
-import { redirect } from 'next/navigation';
-import { type NextRequest } from 'next/server';
-import db from '@/utils/db';
+import Stripe from "stripe";
+import { redirect } from "next/navigation";
+import { type NextRequest } from "next/server";
+import db from "@/utils/db";
 
 // Initialize stripe with secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const GET = async (req: NextRequest) => {
   // Extract session_id from request URL
   const { searchParams } = new URL(req.url);
-  const session_id = searchParams.get('session_id') as string;
+  const session_id = searchParams.get("session_id") as string;
 
   try {
     // Retrieve session details from Stripe
@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest) => {
     const cartId = session.metadata?.cartId;
 
     // If payment is complete, update order and delete cart
-    if (session.status === 'complete') {
+    if (session.status === "complete") {
       await db.order.update({
         where: {
           id: orderId,
@@ -42,10 +42,10 @@ export const GET = async (req: NextRequest) => {
     console.log(err);
     return Response.json(null, {
       status: 500,
-      statusText: 'Internal Server Error',
+      statusText: "Internal Server Error",
     });
   }
 
   // Redirect to orders page
-  redirect('/orders');
+  redirect("/orders");
 };
