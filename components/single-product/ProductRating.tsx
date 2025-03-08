@@ -9,7 +9,7 @@ async function ProductRating({ productId }: { productId: string }) {
 
   return (
     <span className={className}>
-      <FaStar className="w-3 h-3" />
+      <FaStar className="h-3 w-3" />
       {rating}
       {countValue}
     </span>

@@ -23,7 +23,7 @@ function SubmitReview({ productId }: { productId: string }) {
         leave review
       </Button>
       {isReviewFormVisible && (
-        <Card className="p-8 mt-8">
+        <Card className="mt-8 p-8">
           <FormContainer action={createReviewAction}>
             <input type="hidden" name="productId" value={productId} />
             <input

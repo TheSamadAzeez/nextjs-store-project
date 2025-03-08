@@ -34,7 +34,7 @@ function ShareButton({ productId, name }: { productId: string; name: string }) {
         side="top"
         align="end"
         sideOffset={10}
-        className="flex items-center gap-x-2 justify-center w-full"
+        className="flex w-full items-center justify-center gap-x-2"
       >
         {/* Twitter Share Button */}
         <TwitterShareButton url={productUrl} title={name}>

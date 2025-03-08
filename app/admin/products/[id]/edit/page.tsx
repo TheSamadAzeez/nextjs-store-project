@@ -23,8 +23,8 @@ async function EditProductPage({
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-8 capitalize">update product</h1>
-      <div className="border p-8 rounded-md">
+      <h1 className="mb-8 text-2xl font-semibold capitalize">update product</h1>
+      <div className="rounded-md border p-8">
         {/* Image Input Container */}
         <ImageInputContainer
           action={updateProductImageAction}
@@ -38,7 +38,7 @@ async function EditProductPage({
         </ImageInputContainer>
 
         <FormContainer action={updateProductAction}>
-          <div className="grid gap-4 md:grid-cols-2 my-4">
+          <div className="my-4 grid gap-4 md:grid-cols-2">
             <input type="hidden" name="id" value={id} />
 
             <FormInput

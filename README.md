@@ -94,7 +94,7 @@ function Container({
   className?: string;
 }) {
   return (
-    <div className={cn("mx-auto max-w-6xl xl:max-w-7xl px-8", className)}>
+    <div className={cn("mx-auto max-w-6xl px-8 xl:max-w-7xl", className)}>
       {children}
     </div>
   );
@@ -116,11 +116,11 @@ import NavSearch from "./NavSearch";
 import Container from "../global/Container";
 function Navbar() {
   return (
-    <nav className="border-b ">
-      <Container className="flex flex-col sm:flex-row  sm:justify-between sm:items-center flex-wrap gap-4 py-8">
+    <nav className="border-b">
+      <Container className="flex flex-col flex-wrap gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <Logo />
         <NavSearch />
-        <div className="flex gap-4 items-center ">
+        <div className="flex items-center gap-4">
           <CartButton />
           <DarkMode />
           <LinksDropdown />
@@ -168,7 +168,7 @@ function Logo() {
   return (
     <Button size="icon" asChild>
       <Link href="/">
-        <VscCode className="w-6 h-6" />
+        <VscCode className="h-6 w-6" />
       </Link>
     </Button>
   );
@@ -187,7 +187,7 @@ function NavSearch() {
     <Input
       type="search"
       placeholder="search product..."
-      className="max-w-xs dark:bg-muted "
+      className="max-w-xs dark:bg-muted"
     />
   );
 }
@@ -208,11 +208,11 @@ async function CartButton() {
       asChild
       variant="outline"
       size="icon"
-      className="flex justify-center items-center relative"
+      className="relative flex items-center justify-center"
     >
       <Link href="/cart">
         <LuShoppingCart />
-        <span className="absolute -top-3 -right-3 bg-primary text-white rounded-full h-6 w-6 flex items-center justify-center text-xs">
+        <span className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs text-white">
           {numItemsInCart}
         </span>
       </Link>
@@ -388,15 +388,15 @@ function LinksDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-4 max-w-[100px]">
-          <LuAlignLeft className="w-6 h-6" />
+        <Button variant="outline" className="flex max-w-[100px] gap-4">
+          <LuAlignLeft className="h-6 w-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="start" sideOffset={10}>
         {links.map((link) => {
           return (
             <DropdownMenuItem key={link.href}>
-              <Link href={link.href} className="capitalize w-full">
+              <Link href={link.href} className="w-full capitalize">
                 {link.label}
               </Link>
             </DropdownMenuItem>
@@ -769,7 +769,7 @@ import { Separator } from "@/components/ui/separator";
 function SectionTitle({ text }: { text: string }) {
   return (
     <div>
-      <h2 className="text-3xl font-medium tracking-wider capitalize mb-8">
+      <h2 className="mb-8 text-3xl font-medium capitalize tracking-wider">
         {text}
       </h2>
       <Separator />
@@ -791,7 +791,7 @@ function EmptyList({
   heading?: string;
   className?: string;
 }) {
-  return <h2 className={cn("text-xl ", className)}>{heading}</h2>;
+  return <h2 className={cn("text-xl", className)}>{heading}</h2>;
 }
 
 export default EmptyList;
@@ -863,7 +863,7 @@ import { FaHeart } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 function FavoriteToggleButton({ productId }: { productId: string }) {
   return (
-    <Button size="icon" variant="outline" className="p-2 cursor-pointer">
+    <Button size="icon" variant="outline" className="cursor-pointer p-2">
       <FaHeart />
     </Button>
   );
@@ -883,7 +883,7 @@ import FavoriteToggleButton from "./FavoriteToggleButton";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   return (
-    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 pt-12 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {
         const { name, price, image } = product;
         const productId = product.id;
@@ -891,28 +891,28 @@ function ProductsGrid({ products }: { products: Product[] }) {
         return (
           <article key={productId} className="group relative">
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-xl transition-shadow duration-500">
+              <Card className="transform transition-shadow duration-500 group-hover:shadow-xl">
                 <CardContent className="p-4">
-                  <div className="relative h-64 md:h-48 rounded overflow-hidden ">
+                  <div className="relative h-64 overflow-hidden rounded md:h-48">
                     <Image
                       src={image}
                       alt={name}
                       fill
                       sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw"
                       priority
-                      className="rounded w-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      className="w-full transform rounded object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                   <div className="mt-4 text-center">
-                    <h2 className="text-lg  capitalize">{name}</h2>
-                    <p className="text-muted-foreground  mt-2">
+                    <h2 className="text-lg capitalize">{name}</h2>
+                    <p className="mt-2 text-muted-foreground">
                       {dollarsAmount}
                     </p>
                   </div>
                 </CardContent>
               </Card>
             </Link>
-            <div className="absolute top-7 right-7 z-5">
+            <div className="z-5 absolute right-7 top-7">
               <FavoriteToggleButton productId={productId} />
             </div>
           </article>
@@ -951,9 +951,9 @@ import HeroCarousel from "./HeroCarousel";
 
 function Hero() {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+    <section className="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div>
-        <h1 className="max-w-2xl font-bold text-4xl tracking-tight sm:text-6xl">
+        <h1 className="max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl">
           We are changing the way people shop
         </h1>
         <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
@@ -1009,7 +1009,7 @@ function HeroCarousel() {
                     <Image
                       src={image}
                       alt="hero"
-                      className="w-full h-[24rem] rounded-md object-cover"
+                      className="h-[24rem] w-full rounded-md object-cover"
                     />
                   </CardContent>
                 </Card>
@@ -1032,13 +1032,13 @@ export default HeroCarousel;
 function AboutPage() {
   return (
     <section>
-      <h1 className="flex flex-wrap gap-2 sm:gap-x-6 items-center justify-center text-4xl font-bold leading-none tracking-wide sm:text-6xl">
+      <h1 className="flex flex-wrap items-center justify-center gap-2 text-4xl font-bold leading-none tracking-wide sm:gap-x-6 sm:text-6xl">
         We love
-        <span className="bg-primary py-2 px-4 rounded-lg tracking-widest text-white">
+        <span className="rounded-lg bg-primary px-4 py-2 tracking-widest text-white">
           store
         </span>
       </h1>
-      <p className="mt-6 text-lg tracking-wide leading-8 max-w-2xl mx-auto text-muted-foreground">
+      <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 tracking-wide text-muted-foreground">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero hic
         distinctio ducimus temporibus nobis autem laboriosam repellat, magni
         fugiat minima excepturi neque, tenetur possimus nihil atque! Culpa nulla
@@ -1080,7 +1080,7 @@ import { Card, CardContent } from "../ui/card";
 
 function LoadingContainer() {
   return (
-    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 pt-12 md:grid-cols-2 lg:grid-cols-3">
       <LoadingProduct />
       <LoadingProduct />
       <LoadingProduct />
@@ -1093,8 +1093,8 @@ function LoadingProduct() {
     <Card>
       <CardContent className="p-4">
         <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-4 w-3/4 mt-4" />
-        <Skeleton className="h-4 w-1/4 mt-4" />
+        <Skeleton className="mt-4 h-4 w-3/4" />
+        <Skeleton className="mt-4 h-4 w-1/4" />
       </CardContent>
     </Card>
   );
@@ -1163,8 +1163,8 @@ async function ProductsContainer({
     <>
       {/* HEADER */}
       <section>
-        <div className="flex justify-between items-center">
-          <h4 className="font-medium text-lg">
+        <div className="flex items-center justify-between">
+          <h4 className="text-lg font-medium">
             {totalProducts} product{totalProducts > 1 && "s"}
           </h4>
           <div className="flex gap-x-4">
@@ -1193,7 +1193,7 @@ async function ProductsContainer({
       {/* PRODUCTS */}
       <div>
         {totalProducts === 0 ? (
-          <h5 className="text-2xl mt-16">
+          <h5 className="mt-16 text-2xl">
             Sorry, no products matched your search...
           </h5>
         ) : layout === "grid" ? (
@@ -1227,9 +1227,9 @@ function ProductsList({ products }: { products: Product[] }) {
         return (
           <article key={productId} className="group relative">
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-xl transition-shadow duration-500">
-                <CardContent className="p-8 gap-y-4 grid md:grid-cols-3">
-                  <div className="relative h-64  md:h-48 md:w-48">
+              <Card className="transform transition-shadow duration-500 group-hover:shadow-xl">
+                <CardContent className="grid gap-y-4 p-8 md:grid-cols-3">
+                  <div className="relative h-64 md:h-48 md:w-48">
                     <Image
                       src={image}
                       alt={name}
@@ -1244,13 +1244,13 @@ function ProductsList({ products }: { products: Product[] }) {
                     <h2 className="text-xl font-semibold capitalize">{name}</h2>
                     <h4 className="text-muted-foreground">{company}</h4>
                   </div>
-                  <p className="text-muted-foreground text-lg md:ml-auto">
+                  <p className="text-lg text-muted-foreground md:ml-auto">
                     {dollarsAmount}
                   </p>
                 </CardContent>
               </Card>
             </Link>
-            <div className="absolute bottom-8 right-8 z-5">
+            <div className="z-5 absolute bottom-8 right-8">
               <FavoriteToggleButton productId={productId} />
             </div>
           </article>
@@ -1302,7 +1302,7 @@ function NavSearch() {
     <Input
       type="search"
       placeholder="search product..."
-      className="max-w-xs dark:bg-muted "
+      className="max-w-xs dark:bg-muted"
       onChange={(e) => {
         setSearch(e.target.value);
         handleSearch(e.target.value);
@@ -1394,7 +1394,7 @@ import { Button } from "../ui/button";
 
 function AddToCart({ productId }: { productId: string }) {
   return (
-    <Button className="capitalize mt-8" size="lg">
+    <Button className="mt-8 capitalize" size="lg">
       add to cart
     </Button>
   );
@@ -1419,21 +1419,21 @@ function BreadCrumbs({ name }: { name: string }) {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/" className="capitalize text-lg">
+          <BreadcrumbLink href="/" className="text-lg capitalize">
             home
           </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/products" className="capitalize text-lg">
+          <BreadcrumbLink href="/products" className="text-lg capitalize">
             products
           </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className="capitalize text-lg">{name}</BreadcrumbPage>
+          <BreadcrumbPage className="text-lg capitalize">{name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -1455,7 +1455,7 @@ async function ProductRating({ productId }: { productId: string }) {
   const countValue = `(${count}) reviews`;
   return (
     <span className={className}>
-      <FaStar className="w-3 h-3" />
+      <FaStar className="h-3 w-3" />
       {rating} {countValue}
     </span>
   );
@@ -1497,13 +1497,13 @@ async function SingleProductPage({ params }: { params: { id: string } }) {
         </div>
         {/* PRODUCT INFO SECOND COL */}
         <div>
-          <div className="flex gap-x-8 items-center">
-            <h1 className="capitalize text-3xl font-bold">{name}</h1>
+          <div className="flex items-center gap-x-8">
+            <h1 className="text-3xl font-bold capitalize">{name}</h1>
             <FavoriteToggleButton productId={params.id} />
           </div>
           <ProductRating productId={params.id} />
-          <h4 className="text-xl mt-2">{company}</h4>
-          <p className="mt-3 text-md bg-muted inline-block p-2 rounded-md">
+          <h4 className="mt-2 text-xl">{company}</h4>
+          <p className="text-md mt-3 inline-block rounded-md bg-muted p-2">
             {dollarsAmount}
           </p>
           <p className="mt-6 leading-8 text-muted-foreground">{description}</p>
@@ -1673,9 +1673,9 @@ async function UserIcon() {
   const profileImage = user?.imageUrl;
   if (profileImage)
     return (
-      <img src={profileImage} className="w-6 h-6 rounded-full object-cover" />
+      <img src={profileImage} className="h-6 w-6 rounded-full object-cover" />
     );
-  return <LuUser2 className="w-6 h-6 bg-primary rounded-full text-white" />;
+  return <LuUser2 className="h-6 w-6 rounded-full bg-primary text-white" />;
 }
 export default UserIcon;
 ```
@@ -1702,8 +1702,8 @@ function LinksDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-4 max-w-[100px]">
-          <LuAlignLeft className="w-6 h-6" />
+        <Button variant="outline" className="flex max-w-[100px] gap-4">
+          <LuAlignLeft className="h-6 w-6" />
           <UserIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -1725,7 +1725,7 @@ function LinksDropdown() {
           {links.map((link) => {
             return (
               <DropdownMenuItem key={link.href}>
-                <Link href={link.href} className="capitalize w-full">
+                <Link href={link.href} className="w-full capitalize">
                   {link.label}
                 </Link>
               </DropdownMenuItem>
@@ -1803,7 +1803,7 @@ function Sidebar() {
         return (
           <Button
             asChild
-            className="w-full mb-2 capitalize font-normal justify-start"
+            className="mb-2 w-full justify-start font-normal capitalize"
             variant={variant}
           >
             <Link key={link.href} href={link.href}>
@@ -1827,13 +1827,13 @@ import Sidebar from "./Sidebar";
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <h2 className="text-2xl pl-4">Dashboard</h2>
+      <h2 className="pl-4 text-2xl">Dashboard</h2>
       <Separator className="mt-2" />
-      <section className="grid lg:grid-cols-12 gap-12 mt-12">
+      <section className="mt-12 grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-2">
           <Sidebar />
         </div>
-        <div className="lg:col-span-10 px-4">{children}</div>
+        <div className="px-4 lg:col-span-10">{children}</div>
       </section>
     </>
   );
@@ -1885,7 +1885,7 @@ function LinksDropdown() {
         if (link.label === "dashboard" && !isAdmin) return null;
         return (
           <DropdownMenuItem key={link.href}>
-            <Link href={link.href} className="capitalize w-full">
+            <Link href={link.href} className="w-full capitalize">
               {link.label}
             </Link>
           </DropdownMenuItem>
@@ -1912,8 +1912,8 @@ const createProductAction = async (formData: FormData) => {
 function CreateProductPage() {
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-8 capitalize">create product</h1>
-      <div className="border p-8 rounded-md">
+      <h1 className="mb-8 text-2xl font-semibold capitalize">create product</h1>
+      <div className="rounded-md border p-8">
         <form action={createProductAction}>
           <div className="mb-2">
             <Label htmlFor="name">Product Name</Label>
@@ -2111,7 +2111,7 @@ export default function CheckboxInput({
       <Checkbox id={name} name={name} defaultChecked={defaultChecked} />
       <label
         htmlFor={name}
-        className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+        className="text-sm capitalize leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
         {label}
       </label>
@@ -2268,10 +2268,10 @@ function CreateProduct() {
 
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-8 capitalize">create product</h1>
-      <div className="border p-8 rounded-md">
+      <h1 className="mb-8 text-2xl font-semibold capitalize">create product</h1>
+      <div className="rounded-md border p-8">
         <FormContainer action={createProductAction}>
-          <div className="grid gap-4 md:grid-cols-2 my-4">
+          <div className="my-4 grid gap-4 md:grid-cols-2">
             <FormInput
               type="text"
               name="name"
@@ -2724,7 +2724,7 @@ async function ItemsPage() {
                 <TableCell>
                   <Link
                     href={`/products/${productId}`}
-                    className="underline text-muted-foreground tracking-wide capitalize"
+                    className="capitalize tracking-wide text-muted-foreground underline"
                   >
                     {name}
                   </Link>
@@ -2769,9 +2769,9 @@ export const IconButton = ({ actionType }: { actionType: actionType }) => {
       type="submit"
       size="icon"
       variant="link"
-      className="p-2 cursor-pointer"
+      className="cursor-pointer p-2"
     >
-      {pending ? <ReloadIcon className=" animate-spin" /> : renderIcon()}
+      {pending ? <ReloadIcon className="animate-spin" /> : renderIcon()}
     </Button>
   );
 };
@@ -2910,11 +2910,11 @@ async function EditProductPage({ params }: { params: { id: string } }) {
   const { name, company, description, featured, price } = product;
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-8 capitalize">update product</h1>
-      <div className="border p-8 rounded-md">
+      <h1 className="mb-8 text-2xl font-semibold capitalize">update product</h1>
+      <div className="rounded-md border p-8">
         {/* Image Input Container */}
         <FormContainer action={updateProductAction}>
-          <div className="grid gap-4 md:grid-cols-2 my-4">
+          <div className="my-4 grid gap-4 md:grid-cols-2">
             <input type="hidden" name="id" value={id} />
             <FormInput
               type="text"
@@ -3014,7 +3014,7 @@ function ImageInputContainer(props: ImageInputContainerProps) {
         src={image}
         width={200}
         height={200}
-        className="rounded-md object-cover mb-4 w-[200px] h-[200px]"
+        className="mb-4 h-[200px] w-[200px] rounded-md object-cover"
         alt={name}
       />
 
@@ -3026,7 +3026,7 @@ function ImageInputContainer(props: ImageInputContainerProps) {
         {text}
       </Button>
       {isUpdateFormVisible && (
-        <div className="max-w-md mt-4">
+        <div className="mt-4 max-w-md">
           <FormContainer action={action}>
             {props.children}
             <ImageInput />
@@ -3044,7 +3044,7 @@ EditProductPage.tsx
 
 ```tsx
 return (
-  <div className="border p-8 rounded-md">
+  <div className="rounded-md border p-8">
     {/* Image Input Container */}
     <ImageInputContainer
       action={updateProductImageAction}
@@ -3104,7 +3104,7 @@ function LoadingTable({ rows = 5 }: { rows?: number }) {
   const tableRows = Array.from({ length: rows }, (_, index) => {
     return (
       <div className="mb-4" key={index}>
-        <Skeleton className="w-full h-8 rounded" />
+        <Skeleton className="h-8 w-full rounded" />
       </div>
     );
   });
@@ -3161,7 +3161,7 @@ export const CardSignInButton = () => {
         type="button"
         size="icon"
         variant="outline"
-        className="p-2 cursor-pointer"
+        className="cursor-pointer p-2"
         asChild
       >
         <FaRegHeart />
@@ -3177,10 +3177,10 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
       type="submit"
       size="icon"
       variant="outline"
-      className=" p-2 cursor-pointer"
+      className="cursor-pointer p-2"
     >
       {pending ? (
-        <ReloadIcon className=" animate-spin" />
+        <ReloadIcon className="animate-spin" />
       ) : isFavorite ? (
         <FaHeart />
       ) : (
@@ -3406,7 +3406,7 @@ function ShareButton({ productId, name }: { productId: string; name: string }) {
         side="top"
         align="end"
         sideOffset={10}
-        className="flex items-center gap-x-2 justify-center w-full"
+        className="flex w-full items-center justify-center gap-x-2"
       >
         <TwitterShareButton url={shareLink} title={name}>
           <TwitterIcon size={32} round />
@@ -3430,8 +3430,8 @@ export default ShareButton;
 import ShareButton from "@/components/single-product/ShareButton";
 
 return (
-  <div className="flex gap-x-8 items-center">
-    <h1 className="capitalize text-3xl font-bold">{name}</h1>
+  <div className="flex items-center gap-x-8">
+    <h1 className="text-3xl font-bold capitalize">{name}</h1>
     <div className="flex items-center gap-x-2">
       <FavoriteToggleButton productId={params.id} />
       <ShareButton name={product.name} productId={params.id} />
@@ -3569,7 +3569,7 @@ function SubmitReview({ productId }: { productId: string }) {
         leave review
       </Button>
       {isReviewFormVisible && (
-        <Card className="p-8 mt-8">
+        <Card className="mt-8 p-8">
           <FormContainer action={createReviewAction}>
             <input type="hidden" name="productId" value={productId} />
             <input
@@ -3764,7 +3764,7 @@ async function ProductReviews({ productId }: { productId: string }) {
     <div className="mt-16">
       <SectionTitle text="product reviews" />
 
-      <div className="grid md:grid-cols-2 gap-8 my-8">
+      <div className="my-8 grid gap-8 md:grid-cols-2">
         {reviews.map((review) => {
           const { comment, rating, authorImageUrl, authorName } = review;
           const reviewInfo = {
@@ -3810,10 +3810,10 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
             alt={reviewInfo.name}
             width={48}
             height={48}
-            className="w-12 h-12 rounded-full object-cover"
+            className="h-12 w-12 rounded-full object-cover"
           />
           <div className="ml-4">
-            <h3 className="text-sm font-bold capitalize mb-1">
+            <h3 className="mb-1 text-sm font-bold capitalize">
               {reviewInfo.name}
             </h3>
             <Rating rating={reviewInfo.rating} />
@@ -3823,7 +3823,7 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
       <CardContent>
         <Comment comment={reviewInfo.comment} />
       </CardContent>
-      <div className="absolute top-3 right-3">{children}</div>
+      <div className="absolute right-3 top-3">{children}</div>
     </Card>
   );
 }
@@ -3936,7 +3936,7 @@ async function ReviewsPage() {
   return (
     <>
       <SectionTitle text="Your Reviews" />
-      <section className="grid md:grid-cols-2 gap-8 mt-4 ">
+      <section className="mt-4 grid gap-8 md:grid-cols-2">
         {reviews.map((review) => {
           const { comment, rating } = review;
           const { name, image } = review.product;
@@ -3978,7 +3978,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 function loading() {
   return (
-    <section className="grid md:grid-cols-2 gap-8 mt-4 ">
+    <section className="mt-4 grid gap-8 md:grid-cols-2">
       <ReviewLoadingCard />
       <ReviewLoadingCard />
     </section>
@@ -3990,10 +3990,10 @@ const ReviewLoadingCard = () => {
     <Card>
       <CardHeader>
         <div className="flex items-center">
-          <Skeleton className="w-12 h-12 rounded-full" />
+          <Skeleton className="h-12 w-12 rounded-full" />
           <div className="ml-4">
-            <Skeleton className="w-[150px] h-4 mb-2" />
-            <Skeleton className="w-[100px] h-4" />
+            <Skeleton className="mb-2 h-4 w-[150px]" />
+            <Skeleton className="h-4 w-[100px]" />
           </div>
         </div>
       </CardHeader>
@@ -4440,7 +4440,7 @@ function CartTotals({ cart }: { cart: Cart }) {
   const { cartTotal, shipping, tax, orderTotal } = cart;
   return (
     <div>
-      <Card className="p-8 ">
+      <Card className="p-8">
         <CartTotalRow label="Subtotal" amount={cartTotal} />
         <CartTotalRow label="Shipping" amount={shipping} />
         <CartTotalRow label="Tax" amount={tax} />
@@ -4449,7 +4449,7 @@ function CartTotals({ cart }: { cart: Cart }) {
         </CardTitle>
       </Card>
       <FormContainer action={createOrderAction}>
-        <SubmitButton text="Place Order" className="w-full mt-8" />
+        <SubmitButton text="Place Order" className="mt-8 w-full" />
       </FormContainer>
     </div>
   );
@@ -4516,11 +4516,11 @@ export const SecondColumn = ({
   productId: string;
 }) => {
   return (
-    <div className=" sm:w-48">
+    <div className="sm:w-48">
       <Link href={`/products/${productId}`}>
-        <h3 className="capitalize font-medium hover:underline">{name}</h3>
+        <h3 className="font-medium capitalize hover:underline">{name}</h3>
       </Link>
-      <h4 className="mt-2 capitalize text-xs">{company}</h4>
+      <h4 className="mt-2 text-xs capitalize">{company}</h4>
     </div>
   );
 };
@@ -4556,7 +4556,7 @@ function CartItemsList({ cartItems }: { cartItems: CartItemWithProduct[] }) {
         return (
           <Card
             key={id}
-            className="flex flex-col gap-y-4 md:flex-row flex-wrap p-6 mb-8 gap-x-4"
+            className="mb-8 flex flex-col flex-wrap gap-x-4 gap-y-4 p-6 md:flex-row"
           >
             <FirstColumn image={image} name={name} />
             <SecondColumn name={name} company={company} productId={productId} />

@@ -24,8 +24,8 @@ async function LinksDropdown() {
     <DropdownMenu>
       {/* Dropdown trigger button with hamburger and user icon */}
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-4 max-w-[100px]">
-          <LuAlignLeft className="w-6 h-6" />
+        <Button variant="outline" className="flex max-w-[100px] gap-4">
+          <LuAlignLeft className="h-6 w-6" />
           <UserIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -56,7 +56,7 @@ async function LinksDropdown() {
             if (link.label === "dashboard" && !isAdmin) return null; // Hide dashboard link for non-admin users
             return (
               <DropdownMenuItem key={link.href}>
-                <Link href={link.href} className="capitalize w-full">
+                <Link href={link.href} className="w-full capitalize">
                   {link.label}
                 </Link>
               </DropdownMenuItem>

@@ -27,7 +27,7 @@ function ImageInputContainer(props: ImageInputContainerProps) {
         alt={name}
         width={200}
         height={200}
-        className="rounded object-cover mb-4 w-[200px] h-[200px]"
+        className="mb-4 h-[200px] w-[200px] rounded object-cover"
         priority
       />
 
@@ -40,7 +40,7 @@ function ImageInputContainer(props: ImageInputContainerProps) {
       </Button>
 
       {isUpdateFormVisible && (
-        <div className="max-w-md mt-4">
+        <div className="mt-4 max-w-md">
           <FormContainer action={action}>
             {props.children}
             <ImageInput />

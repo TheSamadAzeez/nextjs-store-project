@@ -67,7 +67,7 @@ export function IconButton({ actionType }: { actionType: actionType }) {
       type="submit"
       size="icon"
       variant="link"
-      className="p-2 cursor-pointer"
+      className="cursor-pointer p-2"
     >
       {pending ? <RxReload className="animate-spin" /> : renderIcon()}
     </Button>
@@ -82,7 +82,7 @@ export const CardSignInButton = () => {
         type="button"
         size="icon"
         variant="outline"
-        className="p-2 cursor-pointer"
+        className="cursor-pointer p-2"
         asChild
       >
         <FaRegHeart />
@@ -99,10 +99,10 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
       type="submit"
       size="icon"
       variant="outline"
-      className=" p-2 cursor-pointer"
+      className="cursor-pointer p-2"
     >
       {pending ? (
-        <RxReload className=" animate-spin" />
+        <RxReload className="animate-spin" />
       ) : isFavorite ? (
         <FaHeart />
       ) : (

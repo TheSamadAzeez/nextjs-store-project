@@ -23,10 +23,10 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
             alt={reviewInfo.name}
             width={48}
             height={48}
-            className="w-12 h-12 rounded-full object-cover"
+            className="h-12 w-12 rounded-full object-cover"
           />
           <div className="ml-4">
-            <h3 className="text-sm font-bold capitalize mb-1">
+            <h3 className="mb-1 text-sm font-bold capitalize">
               {reviewInfo.name}
             </h3>
             <Rating rating={reviewInfo.rating} />
@@ -36,7 +36,7 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
       <CardContent>
         <Comment comment={reviewInfo.comment} />
       </CardContent>
-      <div className="absolute top-3 right-3">{children}</div>
+      <div className="absolute right-3 top-3">{children}</div>
     </Card>
   );
 }

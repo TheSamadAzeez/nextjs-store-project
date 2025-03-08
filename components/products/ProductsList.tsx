@@ -21,8 +21,8 @@ function ProductsList({ products }: { products: Product[] }) {
           <article key={productId} className="group relative">
             {/* Link to product detail page */}
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-lg transition-shadow duration-500">
-                <CardContent className="p-8 gap-y-4 grid md:grid-cols-3">
+              <Card className="transform transition-shadow duration-500 group-hover:shadow-lg">
+                <CardContent className="grid gap-y-4 p-8 md:grid-cols-3">
                   {/* Product image container */}
                   <div className="relative h-64 md:h-48 md:w-48">
                     <Image
@@ -31,7 +31,7 @@ function ProductsList({ products }: { products: Product[] }) {
                       fill
                       sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 30vw"
                       priority
-                      className="rounded object-cover "
+                      className="rounded object-cover"
                     />
                   </div>
 
@@ -42,7 +42,7 @@ function ProductsList({ products }: { products: Product[] }) {
                   </div>
 
                   {/* Product price */}
-                  <p className="text-muted-foreground text-lg md:ml-auto">
+                  <p className="text-lg text-muted-foreground md:ml-auto">
                     {dollarsAmount}
                   </p>
                 </CardContent>
@@ -50,7 +50,7 @@ function ProductsList({ products }: { products: Product[] }) {
             </Link>
 
             {/* Favorite button overlay */}
-            <div className="absolute bottom-8 right-8 z-5">
+            <div className="z-5 absolute bottom-8 right-8">
               <FavoriteToggleButton productId={productId} />
             </div>
           </article>

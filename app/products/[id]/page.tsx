@@ -42,16 +42,16 @@ async function SingleProductPage({
           />
         </div>
         <div>
-          <div className="flex gap-x-8 items-center">
-            <h1 className="capitalize text-3xl font-bold">{name}</h1>
+          <div className="flex items-center gap-x-8">
+            <h1 className="text-3xl font-bold capitalize">{name}</h1>
             <div className="flex items-center gap-x-2">
               <FavoriteToggleButton productId={id} />
               <ShareButton productId={id} name={name} />
             </div>
           </div>
           <ProductRating productId={id} />
-          <h4 className="text-xl mt-2">{company}</h4>
-          <p className="mt-3 text-md bg-muted inline-block p-2 rounded-md">
+          <h4 className="mt-2 text-xl">{company}</h4>
+          <p className="text-md mt-3 inline-block rounded-md bg-muted p-2">
             {dollarsAmount}
           </p>
           <p className="mt-6 leading-8 text-muted-foreground">{description}</p>

@@ -41,7 +41,7 @@ async function AdminProductsPage() {
                 <TableCell>
                   <Link
                     href={`/products/${productId}`}
-                    className="underline text-muted-foreground tracking-wide capitalize"
+                    className="capitalize tracking-wide text-muted-foreground underline"
                   >
                     {name}
                   </Link>

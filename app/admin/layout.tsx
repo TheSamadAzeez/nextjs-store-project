@@ -4,13 +4,13 @@ import Sidebar from "./Sidebar";
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <h2 className="text-2xl p-4">Dashboard</h2>
+      <h2 className="p-4 text-2xl">Dashboard</h2>
       <Separator />
-      <section className="grid lg:grid-cols-12 gap-12 mt-12">
+      <section className="mt-12 grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-2">
           <Sidebar />
         </div>
-        <div className="lg:col-span-10 px-4">{children}</div>
+        <div className="px-4 lg:col-span-10">{children}</div>
       </section>
     </>
   );

@@ -30,9 +30,9 @@ async function ProductsContainer({
     <>
       {/* Header section containing product count and view toggles */}
       <section>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           {/* Display total number of products with proper pluralization */}
-          <h4 className="font-medium text-lg">
+          <h4 className="text-lg font-medium">
             {totalProducts} product{totalProducts > 1 ? "s" : ""}
           </h4>
 
@@ -70,7 +70,7 @@ async function ProductsContainer({
       <div>
         {totalProducts === 0 ? (
           // Show message when no products match search criteria
-          <h5 className="text-2xl mt-16">
+          <h5 className="mt-16 text-2xl">
             Sorry, no products matched your search criteria ...
           </h5>
         ) : layout === "grid" ? (

@@ -12,21 +12,21 @@ function BreadCrumbs({ name }: { name: string }) {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/" className="capitalize text-lg">
+          <BreadcrumbLink href="/" className="text-lg capitalize">
             Home
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
 
         <BreadcrumbItem>
-          <BreadcrumbLink href="/products" className="capitalize text-lg">
+          <BreadcrumbLink href="/products" className="text-lg capitalize">
             Products
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
 
         <BreadcrumbItem>
-          <BreadcrumbPage className="capitalize text-lg">{name}</BreadcrumbPage>
+          <BreadcrumbPage className="text-lg capitalize">{name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

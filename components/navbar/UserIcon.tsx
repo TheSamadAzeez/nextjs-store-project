@@ -13,12 +13,12 @@ async function UserIcon() {
       <img
         src={profileImage}
         alt="user image"
-        className="w-7 h-7 rounded-full object-cover"
+        className="h-7 w-7 rounded-full object-cover"
       />
     );
   }
 
-  return <LuUser className="w-7 h-7 bg-primary rounded-full text-white " />;
+  return <LuUser className="h-7 w-7 rounded-full bg-primary text-white" />;
 }
 
 export default UserIcon;

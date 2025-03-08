@@ -15,11 +15,11 @@ function CreateProductsPage() {
   const company = faker.company.name();
 
   return (
-    <section className="text-2xl font-semibold mb-8 capitalize">
+    <section className="mb-8 text-2xl font-semibold capitalize">
       create product
-      <div className="border p-8 rounded-md">
+      <div className="rounded-md border p-8">
         <FormContainer action={createProductAction}>
-          <div className="grid gap-4 md:grid-cols-2 my-4">
+          <div className="my-4 grid gap-4 md:grid-cols-2">
             <FormInput name="name" type="text" defaultValue={name} />
 
             <FormInput name="company" type="text" defaultValue={company} />

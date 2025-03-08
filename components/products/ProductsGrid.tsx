@@ -12,7 +12,7 @@ import FavoriteToggleButton from "./FavoriteToggleButton";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   return (
-    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 pt-12 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {
         const { id: productId, name, price, image } = product;
         const dollarsAmount = formatCurrency(price);
@@ -21,9 +21,9 @@ function ProductsGrid({ products }: { products: Product[] }) {
           <article key={productId} className="group relative">
             {/* Card link with hover effect */}
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-lg transition-shadow duration-500">
+              <Card className="transform transition-shadow duration-500 group-hover:shadow-lg">
                 <CardContent className="p-4">
-                  <div className="relative h-64 md:h-48 rounded overflow-hidden">
+                  <div className="relative h-64 overflow-hidden rounded md:h-48">
                     <Image
                       src={image}
                       alt={name}
@@ -31,14 +31,14 @@ function ProductsGrid({ products }: { products: Product[] }) {
                       sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw"
                       priority
                       // transition-transform: smooth zoom transition
-                      className="rounded w-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      className="w-full transform rounded object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
 
                   {/* Product details container */}
                   <div className="m-4 text-center">
                     <h2 className="text-lg capitalize">{name}</h2>
-                    <p className="text-muted-foreground mt-2">
+                    <p className="mt-2 text-muted-foreground">
                       {dollarsAmount}
                     </p>
                   </div>
@@ -47,7 +47,7 @@ function ProductsGrid({ products }: { products: Product[] }) {
             </Link>
 
             {/* Favorite button */}
-            <div className="absolute top-7 right-7 z-5">
+            <div className="z-5 absolute right-7 top-7">
               <FavoriteToggleButton productId={productId} />
             </div>
           </article>

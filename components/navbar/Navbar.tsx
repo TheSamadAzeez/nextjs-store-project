@@ -9,14 +9,14 @@ import NavSearch from "./NavSearch";
 function Navbar() {
   return (
     <nav className="border-b">
-      <Container className="flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap gap-4 py-8">
+      <Container className="flex flex-col flex-wrap gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <Logo />
 
         <Suspense>
           <NavSearch />
         </Suspense>
 
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
           <CartButton />
           <DarkMode />
           <LinksDropdown />

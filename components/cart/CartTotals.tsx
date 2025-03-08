@@ -12,7 +12,7 @@ function CartTotals({ cart }: { cart: Cart }) {
   const { cartTotal, shipping, tax, orderTotal } = cart;
   return (
     <div>
-      <Card className="p-8 ">
+      <Card className="p-8">
         {/* Display subtotal */}
         <CartTotalRow label="Subtotal" amount={cartTotal} />
         {/* Display shipping cost */}
@@ -26,7 +26,7 @@ function CartTotals({ cart }: { cart: Cart }) {
       </Card>
       {/* Form to place order */}
       <FormContainer action={createOrderAction}>
-        <SubmitButton text="Place Order" className="w-full mt-8" />
+        <SubmitButton text="Place Order" className="mt-8 w-full" />
       </FormContainer>
     </div>
   );
